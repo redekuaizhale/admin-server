@@ -39,15 +39,6 @@ public class MenuService extends BaseService<Menu> {
     }
 
     /**
-     * 根据level查询菜单
-     * @param level
-     * @return
-     */
-    public Menu findByLevel(String level) {
-        return findByProperty("lavel", level);
-    }
-
-    /**
      * 根据父id查询菜单，并根据 menu_order 字段升序
      * @param parentId
      * @return

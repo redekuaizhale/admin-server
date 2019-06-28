@@ -46,7 +46,7 @@ public class AdminInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String token = request.getHeader("X-Token");
+        String token = request.getHeader("Authorization");
         if (StringUtils.isEmpty(token)) {
             log.error(">>>> token 未传输 >>>>");
             return false;

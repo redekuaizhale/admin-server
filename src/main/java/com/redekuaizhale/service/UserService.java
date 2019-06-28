@@ -53,7 +53,7 @@ public class UserService extends BaseService<User> {
         queryMap.put("password", request.getPassword());
         User user = findByProperties(queryMap);
         if (user == null) {
-            throw new ServiceException("用户名或密码不正确");
+            throw new ServiceException("用户名或密码不正确!");
         }
         String token = UUID.randomUUID().toString();
         redisUtils.set(token,user.getId());

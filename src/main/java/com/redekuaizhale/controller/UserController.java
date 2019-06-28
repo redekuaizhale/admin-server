@@ -17,7 +17,6 @@ package com.redekuaizhale.controller;
 
 import com.redekuaizhale.base.response.Result;
 import com.redekuaizhale.dto.user.RequestLoginUserDTO;
-import com.redekuaizhale.dto.usermenu.ResponseUserAllMenuDTO;
 import com.redekuaizhale.entity.User;
 import com.redekuaizhale.service.UserMenuService;
 import com.redekuaizhale.service.UserService;
@@ -27,8 +26,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * @author redekuaizhale
@@ -49,14 +46,15 @@ public class UserController {
     @PostMapping("login")
     @ApiOperation("登录")
     public Result login(@RequestBody @Validated RequestLoginUserDTO request){
-        return Result.newSuccessResult("登录成功！",userService.getLoginUser(request));
+        return Result.newSuccessResult("登录成功！",
+                userService.getLoginUser(request));
     }
 
     @GetMapping("menus.do")
     @ApiOperation("获取用户所有菜单")
     public Result menus(){
         User currentUser = UserThreadLocalUtils.get();
-        List<ResponseUserAllMenuDTO> responseUserAllMenuDTOS = userMenuService.queryAllMenuByUserId(currentUser.getId());
-        return Result.newSuccessResult("获取用户菜单成功！", responseUserAllMenuDTOS);
+        return Result.newSuccessResult("获取用户菜单成功！",
+                userMenuService.queryAllMenuByUserId(currentUser.getId()));
     }
 }

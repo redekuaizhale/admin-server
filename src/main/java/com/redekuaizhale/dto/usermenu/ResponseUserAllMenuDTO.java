@@ -31,6 +31,8 @@ public class ResponseUserAllMenuDTO {
 
     private String path;
 
+    private String name;
+
     private String redirect;
 
     private String component;

@@ -80,7 +80,7 @@ public class UserMenuService extends BaseService<UserMenu> {
      */
     public List<ResponseUserAllMenuDTO> getUserAllMenuList(List<String> userHasMenuIdList) {
         List<ResponseUserAllMenuDTO> userAllMenuList = new ArrayList<>();
-        List<Menu> parentMenuList = menuService.findByParentId("", DirecttionConstant.ASC.getCode());
+        List<Menu> parentMenuList = menuService.findByParentId("0", DirecttionConstant.ASC.getCode());
         parentMenuList.forEach(parent->{
             if (!userHasMenuIdList.contains(parent.getId())) {
                 return;
