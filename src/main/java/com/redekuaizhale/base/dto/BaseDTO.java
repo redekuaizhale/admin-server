@@ -18,6 +18,7 @@ package com.redekuaizhale.base.dto;
 import lombok.Data;
 
 /**
+ * 基础DTO
  * @author zhanghui
  * @date 2019-06-24
  * @company Dingxuan
@@ -25,6 +26,9 @@ import lombok.Data;
 @Data
 public class BaseDTO {
 
+    /**
+     * id
+     */
     private String id;
 
 }

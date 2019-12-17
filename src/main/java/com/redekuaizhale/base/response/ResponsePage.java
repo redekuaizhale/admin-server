@@ -21,6 +21,7 @@ import lombok.Data;
 import java.util.List;
 
 /**
+ * 分页响应结果
  * @author redekuaizhale
  * @date 2019-05-31
  * @company Dingxuan

@@ -23,6 +23,7 @@ import lombok.Data;
 import java.util.List;
 
 /**
+ * 分页请求
  * @author redekuaizhale
  * @date 2019-05-31
  * @company Dingxuan

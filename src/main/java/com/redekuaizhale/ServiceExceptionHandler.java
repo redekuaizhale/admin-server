@@ -22,13 +22,19 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+/**
+ * 异常控制类
+ * @author redekuaizhale
+ * @date 2019-05-31
+ * @company Dingxuan
+ */
 @ControllerAdvice
 @ResponseBody
 @Slf4j
 public class ServiceExceptionHandler {
 
     @ExceptionHandler(value = ServiceException.class)
-    public Result handler(Exception e){
+    public Result handler(Exception e) {
         log.error(e.getMessage(), e);
         return Result.newErrorResult(e.getMessage());
     }

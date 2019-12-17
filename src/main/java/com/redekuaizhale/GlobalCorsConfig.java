@@ -29,7 +29,8 @@ import org.springframework.web.filter.CorsFilter;
  * @company Dingxuan
  */
 @Configuration
-public class GlobalCorsConfig{
+public class GlobalCorsConfig {
+
     @Bean
     public FilterRegistrationBean corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

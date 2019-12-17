@@ -27,6 +27,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * redis工具类
+ * @author redekuaizhale
+ * @date 2019-05-31
+ * @company Dingxuan
+ */
 @SuppressWarnings("unchecked")
 @Component
 @Slf4j
@@ -164,6 +170,7 @@ public class RedisUtils {
 
     /**
      * 设置指定 key 的值
+     *
      * @param key
      * @param value
      */
@@ -173,6 +180,7 @@ public class RedisUtils {
 
     /**
      * 获取指定 key 的值
+     *
      * @param key
      * @return
      */
@@ -182,6 +190,7 @@ public class RedisUtils {
 
     /**
      * 返回 key 中字符串值的子字符
+     *
      * @param key
      * @param start
      * @param end
@@ -214,6 +223,7 @@ public class RedisUtils {
 
     /**
      * 设置ASCII码, 字符串'a'的ASCII码是97, 转为二进制是'01100001', 此方法是将二进制第offset位值变为value
+     *
      * @param key
      * @param offset
      * @param value
@@ -228,11 +238,9 @@ public class RedisUtils {
      *
      * @param key
      * @param value
-     * @param timeout
-     *            过期时间
-     * @param unit
-     *            时间单位, 天:TimeUnit.DAYS 小时:TimeUnit.HOURS 分钟:TimeUnit.MINUTES
-     *            秒:TimeUnit.SECONDS 毫秒:TimeUnit.MILLISECONDS
+     * @param timeout 过期时间
+     * @param unit    时间单位, 天:TimeUnit.DAYS 小时:TimeUnit.HOURS 分钟:TimeUnit.MINUTES
+     *                秒:TimeUnit.SECONDS 毫秒:TimeUnit.MILLISECONDS
      */
     public void setEx(String key, String value, long timeout, TimeUnit unit) {
         redisTemplate.opsForValue().set(key, value, timeout, unit);
@@ -243,7 +251,7 @@ public class RedisUtils {
      *
      * @param key
      * @param value
-     * @return 之前已经存在返回false,不存在返回true
+     * @return 之前已经存在返回false, 不存在返回true
      */
     public boolean setIfAbsent(String key, String value) {
         return redisTemplate.opsForValue().setIfAbsent(key, value);
@@ -254,8 +262,7 @@ public class RedisUtils {
      *
      * @param key
      * @param value
-     * @param offset
-     *            从指定位置开始覆写
+     * @param offset 从指定位置开始覆写
      */
     public void setRange(String key, String value, long offset) {
         redisTemplate.opsForValue().set(key, value, offset);
@@ -284,14 +291,13 @@ public class RedisUtils {
      * 同时设置一个或多个 key-value 对，当且仅当所有给定 key 都不存在
      *
      * @param maps
-     * @return 之前已经存在返回false,不存在返回true
+     * @return 之前已经存在返回false, 不存在返回true
      */
     public boolean multiSetIfAbsent(Map<String, String> maps) {
         return redisTemplate.opsForValue().multiSetIfAbsent(maps);
     }
 
     /**
-     *
      * @param key
      * @param value
      * @return

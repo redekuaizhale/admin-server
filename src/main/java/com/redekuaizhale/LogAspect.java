@@ -27,6 +27,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * 记录接口响应时间
  * @author redekuaizhale
  * @date 2019-06-03
  * @company Dingxuan
@@ -36,12 +37,12 @@ import java.util.List;
 @Slf4j
 public class LogAspect {
 
-    @Pointcut("execution(* com.redekuaizhale.controller..*.*(..))")
-    public void logPointcut(){
-    }
+    @Pointcut("execution(* com.redekuaizhale.*.controller..*.*(..))")
+    public void logPointcut() {
 
+    }
     @Around("logPointcut()")
-    public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable{
+    public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
         try {
             long start = System.currentTimeMillis();
             String methodName = joinPoint.getSignature().getName();
@@ -52,9 +53,7 @@ public class LogAspect {
             }
             Object result = joinPoint.proceed();
             long end = System.currentTimeMillis();
-
-            log.info(String.format("请求成功 | 方法名：%s | 参数：%s | 耗时：%s ms",methodName,argsObject.toString(),end-start));
-
+            log.info(String.format("请求成功 | 方法名：%s | 参数：%s | 耗时：%s ms", methodName, argsObject.toString(), end - start));
             return result;
         } catch (Throwable e) {
             throw e;

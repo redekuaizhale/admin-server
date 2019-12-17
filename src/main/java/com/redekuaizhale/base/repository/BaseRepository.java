@@ -22,6 +22,7 @@ import org.springframework.data.repository.NoRepositoryBean;
 import java.util.List;
 
 /**
+ * 基础repository
  * @author redekuaizhale
  * @date 2019-05-31
  * @company Dingxuan
@@ -31,6 +32,7 @@ public interface BaseRepository<T, ID> extends JpaRepository<T, ID>, JpaSpecific
 
     /**
      * 查询所有未删除的数据
+     *
      * @param delFlag
      * @return
      */

@@ -29,6 +29,7 @@ import java.util.List;
 import static org.apache.commons.lang3.time.DateUtils.addDays;
 
 /**
+ * 日期工具类
  * @author redekuaizhale
  * @date 2019-05-31
  * @company Dingxuan
@@ -40,9 +41,9 @@ public class DateUtils {
 
     public static final String yyyy_MM_dd_HH_mm_ss = "yyyy-MM-dd HH:mm:ss";
 
-
     /**
      * string 转 date
+     *
      * @param dateStr
      * @return
      * @throws ServiceException
@@ -66,6 +67,7 @@ public class DateUtils {
 
     /**
      * date 转 string
+     *
      * @param date
      * @return
      */

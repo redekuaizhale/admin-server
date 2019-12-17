@@ -18,6 +18,7 @@ package com.redekuaizhale.base.page;
 import lombok.Data;
 
 /**
+ * 分页
  * @author redekuaizhale
  * @date 2019-05-31
  * @company Dingxuan

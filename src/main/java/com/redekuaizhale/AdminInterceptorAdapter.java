@@ -23,6 +23,7 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 /**
+ * swaggerui
  * @author zhanghui
  * @date 2019-06-24
  * @company Dingxuan
@@ -38,7 +39,8 @@ public class AdminInterceptorAdapter extends WebMvcConfigurationSupport {
         registry.addInterceptor(adminInterceptor).
                 addPathPatterns("/**/*.do").
                 excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**").
-                excludePathPatterns("/druid/*");
+                excludePathPatterns("/druid/*").
+                excludePathPatterns("/user/login.do");
     }
 
     @Override

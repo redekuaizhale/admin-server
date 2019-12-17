@@ -10,13 +10,14 @@
         }
     </style>
     <script>
-        function changeFrameHeight(){
-            var index= document.getElementById("index");
-            index.height=document.documentElement.clientHeight;
+        function changeFrameHeight() {
+            const index = document.getElementById("index");
+            index.height = document.documentElement.clientHeight;
         }
     </script>
 </head>
 <body>
-    <iframe id="index" onload="changeFrameHeight()" src="/swagger-ui.html" width="100%" scrolling="yes" frameborder="0"></iframe>
+<iframe id="index" onload="changeFrameHeight()" src="/swagger-ui.html" width="100%" scrolling="yes"
+        frameborder="0"></iframe>
 </body>
 </html>

@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 对象copy工具类
  * @author zhanghui
  * @date 2019-06-13
  * @company Dingxuan
@@ -39,7 +40,7 @@ public class BeanCopyUtils {
      * @return
      */
     public static <F, T> List<T> entityListToModelList(List<F> fromList, Class<T> tClass) {
-        if (fromList.isEmpty() || fromList == null) {
+        if (fromList.isEmpty()) {
             return null;
         }
         List<T> tList = new ArrayList<>();

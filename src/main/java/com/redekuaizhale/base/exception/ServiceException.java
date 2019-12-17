@@ -15,6 +15,12 @@
  */
 package com.redekuaizhale.base.exception;
 
+/**
+ * 异常类
+ * @author redekuaizhale
+ * @date 2019-05-29
+ * @company Dingxuan
+ */
 public class ServiceException extends RuntimeException {
 
     public ServiceException() {

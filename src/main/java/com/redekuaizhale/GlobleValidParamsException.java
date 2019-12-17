@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 必传项校验返回结果
  * @author redekuaizhale
  * @date 2019-05-31
  * @company Dingxuan
@@ -36,7 +37,7 @@ public class GlobleValidParamsException {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Result handleValidException(MethodArgumentNotValidException e) {
         List<String> errors = new ArrayList<>();
-        e.getBindingResult().getAllErrors().stream().forEach(item -> errors.add(item.getDefaultMessage()));
+        e.getBindingResult().getAllErrors().forEach(item -> errors.add(item.getDefaultMessage()));
         return Result.newErrorResult(errors.toString());
     }
 

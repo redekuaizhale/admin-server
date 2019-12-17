@@ -16,6 +16,7 @@
 package com.redekuaizhale.constants;
 
 /**
+ * entity常量
  * @author redekuaizhale
  * @date 2019-05-31
  * @company Dingxuan
@@ -32,13 +33,13 @@ public enum BaseEntityConstant {
      */
     DELETE("1");
 
-    String code;
+    String key;
 
-    BaseEntityConstant(String code) {
-        this.code = code;
+    BaseEntityConstant(String key) {
+        this.key = key;
     }
 
-    public String getCode() {
-        return code;
+    public String getKey() {
+        return key;
     }
 }

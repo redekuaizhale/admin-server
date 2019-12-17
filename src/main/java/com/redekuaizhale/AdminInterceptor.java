@@ -15,10 +15,11 @@
  */
 package com.redekuaizhale;
 
-import com.redekuaizhale.entity.User;
-import com.redekuaizhale.service.UserService;
+import com.redekuaizhale.base.exception.ServiceException;
+import com.redekuaizhale.user.entity.UserEntity;
+import com.redekuaizhale.user.service.UserService;
 import com.redekuaizhale.utils.redis.RedisUtils;
-import com.redekuaizhale.utils.user.UserThreadLocalUtils;
+import com.redekuaizhale.utils.threadlocal.UserThreadLocalUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * 拦截器
  * @author zhanghui
  * @date 2019-06-24
  * @company Dingxuan
@@ -48,18 +50,15 @@ public class AdminInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = request.getHeader("Authorization");
         if (StringUtils.isEmpty(token)) {
-            log.error(">>>> token 未传输 >>>>");
-            return false;
+            throw new ServiceException("token未传输！");
         }
         String userId = redisUtils.get(token);
         if (StringUtils.isEmpty(userId)) {
-            log.error(">>>> token 不存在 >>>>");
-            return false;
+            throw new ServiceException("无效token！");
         }
-        User user = userService.findById(userId);
+        UserEntity user = userService.findById(userId);
         if (user == null) {
-            log.error(">>>> token 已失效");
-            return false;
+            throw new ServiceException("token已失效!");
         }
         UserThreadLocalUtils.set(user);
         return true;

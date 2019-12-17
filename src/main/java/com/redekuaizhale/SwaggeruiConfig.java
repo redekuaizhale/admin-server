@@ -26,6 +26,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
+ * swaggerui配置
  * @author redekuaizhale
  * @date 2019-05-31
  * @company Dingxuan

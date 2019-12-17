@@ -1,5 +1,11 @@
 package com.redekuaizhale.constants;
 
+/**
+ * sql 关键字常量
+ * @author redekuaizhale
+ * @date 2019-05-31
+ * @company Dingxuan
+ */
 public enum DirecttionConstant {
 
     /**
@@ -75,13 +81,13 @@ public enum DirecttionConstant {
     /**
      * 编码
      */
-    String code;
+    String key;
 
-    DirecttionConstant(String code) {
-        this.code = code;
+    DirecttionConstant(String key) {
+        this.key = key;
     }
 
-    public String getCode() {
-        return code;
+    public String getKey() {
+        return key;
     }
 }

@@ -22,8 +22,8 @@ import com.redekuaizhale.base.repository.BaseRepository;
 import com.redekuaizhale.base.request.RequestPage;
 import com.redekuaizhale.base.response.ResponsePage;
 import com.redekuaizhale.constants.BaseEntityConstant;
-import com.redekuaizhale.entity.User;
-import com.redekuaizhale.utils.user.UserThreadLocalUtils;
+import com.redekuaizhale.user.entity.UserEntity;
+import com.redekuaizhale.utils.threadlocal.UserThreadLocalUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -36,6 +36,7 @@ import java.lang.reflect.Type;
 import java.util.*;
 
 /**
+ * 基础service
  * @author redekuaizhale
  * @date 2019-05-31
  * @company Dingxuan
@@ -77,13 +78,14 @@ public abstract class BaseService<T extends BaseEntity> {
      * @return
      */
     public T add(T entity) {
-        User user = UserThreadLocalUtils.get();
+        UserEntity user = UserThreadLocalUtils.get();
         Date date = new Date();
         entity.setCreateDate(date);
-        entity.setDelFlag(BaseEntityConstant.ENABLE.getCode());
-        if (user != null) {
-            entity.setCreateId(user.getId());
-        }
+        entity.setDelFlag(BaseEntityConstant.ENABLE.getKey());
+        entity.setCreateUserId(user.getId());
+        entity.setCreateDate(new Date());
+        entity.setUpdateDate(entity.getCreateDate());
+        entity.setUpdateUserId(entity.getCreateUserId());
         return baseRepository.save(entity);
     }
 
@@ -92,8 +94,11 @@ public abstract class BaseService<T extends BaseEntity> {
      * @param entity
      * @return
      */
-    public T update(T entity){
+    public T update(T entity) {
         entity.setUpdateDate(new Date());
+        UserEntity user = UserThreadLocalUtils.get();
+        entity.setUpdateDate(new Date());
+        entity.setUpdateUserId(user.getId());
         return baseRepository.save(entity);
     }
 
@@ -102,9 +107,11 @@ public abstract class BaseService<T extends BaseEntity> {
      * @param id
      */
     public void deleteById(String id) {
+        UserEntity user = UserThreadLocalUtils.get();
         T t = findById(id);
-        t.setDelFlag(BaseEntityConstant.DELETE.getCode());
+        t.setDelFlag(BaseEntityConstant.DELETE.getKey());
         t.setUpdateDate(new Date());
+        t.setUpdateUserId(user.getId());
         baseRepository.save(t);
     }
 
@@ -122,10 +129,11 @@ public abstract class BaseService<T extends BaseEntity> {
 
     /**
      * 查询所有未逻辑删除数据
+     *
      * @return
      */
-    public List<T> findAll(){
-        return baseRepository.findAllByDelFlag(BaseEntityConstant.ENABLE.getCode());
+    public List<T> findAll() {
+        return baseRepository.findAllByDelFlag(BaseEntityConstant.ENABLE.getKey());
     }
 
     /**
@@ -138,9 +146,7 @@ public abstract class BaseService<T extends BaseEntity> {
     public T findByProperty(String field, String value, OrderParam... orderParams) {
         Map<String, Object> fieldMap = new HashMap<>();
         fieldMap.put(field, value);
-        if(fieldMap.get("delFlag") == null){
-            fieldMap.put("delFlag", BaseEntityConstant.ENABLE.getCode());
-        }
+        fieldMap.put("delFlag", BaseEntityConstant.ENABLE.getKey());
         List<T> list = findAllByProperties(fieldMap, orderParams);
         return CollectionUtils.isEmpty(list) ? null : list.get(0);
     }
@@ -153,8 +159,8 @@ public abstract class BaseService<T extends BaseEntity> {
      * @return
      */
     public List<T> findAllByProperty(String field, String value, OrderParam... orderParams) {
-        Map<String, Object> fieldMap = new HashMap<>(16);
-        fieldMap.put("delFlag", BaseEntityConstant.ENABLE.getCode());
+        Map<String, Object> fieldMap = new HashMap<>(2);
+        fieldMap.put("delFlag", BaseEntityConstant.ENABLE.getKey());
         fieldMap.put(field, value);
         List<T> list = findAllByProperties(fieldMap, orderParams);
         return CollectionUtils.isEmpty(list) ? null : list;
@@ -169,28 +175,25 @@ public abstract class BaseService<T extends BaseEntity> {
     public T findByProperties(Map<String, Object> properties, OrderParam... orderParams) {
         RequestPage requestPage = new RequestPage();
         requestPage.setTotal(Integer.MAX_VALUE);
-
-        if(properties.get("delFlag") == null){
-            properties.put("delFlag", BaseEntityConstant.ENABLE.getCode());
-        }
+        properties.put("delFlag", BaseEntityConstant.ENABLE.getKey());
 
         List<QueryParam> queryParams = QueryParam.newQueryParams(properties);
 
         if (CollectionUtils.isEmpty(requestPage.getQueryParamList())) {
             requestPage.setQueryParamList(queryParams);
-        }else{
+        } else {
             requestPage.getQueryParamList().addAll(queryParams);
         }
 
         List<OrderParam> orderParamList = OrderParam.newOrderParams(orderParams);
 
-        if(CollectionUtils.isEmpty(requestPage.getOrderParamList())){
+        if (CollectionUtils.isEmpty(requestPage.getOrderParamList())) {
             requestPage.setOrderParamList(orderParamList);
-        }else{
+        } else {
             requestPage.getOrderParamList().addAll(orderParamList);
         }
 
-        List<T> resultList = (List<T>)query(requestPage).getResultList();
+        List<T> resultList = (List<T>) query(requestPage).getResultList();
         return CollectionUtils.isEmpty(resultList) ? null : resultList.get(0);
     }
 
@@ -203,19 +206,17 @@ public abstract class BaseService<T extends BaseEntity> {
     public List<T> findAllByProperties(Map<String, Object> properties, OrderParam... orderParams) {
         RequestPage requestPage = new RequestPage();
         requestPage.setTotal(Integer.MAX_VALUE);
-        if(properties.get("delFlag") == null){
-            properties.put("delFlag", BaseEntityConstant.ENABLE.getCode());
-        }
+        properties.put("delFlag", BaseEntityConstant.ENABLE.getKey());
         List<QueryParam> queryParams = QueryParam.newQueryParams(properties);
         if (CollectionUtils.isEmpty(requestPage.getQueryParamList())) {
             requestPage.setQueryParamList(queryParams);
-        }else{
+        } else {
             requestPage.getQueryParamList().addAll(queryParams);
         }
         List<OrderParam> orderParamList = OrderParam.newOrderParams(orderParams);
-        if(CollectionUtils.isEmpty(requestPage.getOrderParamList())){
+        if (CollectionUtils.isEmpty(requestPage.getOrderParamList())) {
             requestPage.setOrderParamList(orderParamList);
-        }else{
+        } else {
             requestPage.getOrderParamList().addAll(orderParamList);
         }
         return (List<T>) query(requestPage).getResultList();
@@ -267,10 +268,10 @@ public abstract class BaseService<T extends BaseEntity> {
 
     String createHql(List<QueryParam> queryParams) {
         StringBuilder hql = new StringBuilder(" from " + this.clazz.getName() + " t where 1 = 1 ");
-        return createHqldetail(queryParams,hql);
+        return createHqldetail(queryParams, hql);
     }
 
-    String createHqldetail(List<QueryParam> queryParams,StringBuilder hql){
+    String createHqldetail(List<QueryParam> queryParams, StringBuilder hql) {
         for (QueryParam queryParam : queryParams) {
             String paramName = queryParam.getFieldName();
             String replace = paramName.replace(".", "");
@@ -287,5 +288,4 @@ public abstract class BaseService<T extends BaseEntity> {
         }
         return hql.toString();
     }
-
 }

@@ -19,6 +19,7 @@ import com.redekuaizhale.constants.ResultConstant;
 import lombok.Data;
 
 /**
+ * 返回结果类
  * @author redekuaizhale
  * @date 2019-05-31
  * @company Dingxuan
@@ -49,7 +50,7 @@ public class Result {
      */
     public static Result newSuccessResult(String resultMessage) {
         Result result = new Result();
-        result.setResultCode(ResultConstant.SUCCESS_CODE.getCode());
+        result.setResultCode(ResultConstant.SUCCESS_CODE.getKey());
         result.setResultMessage(resultMessage);
         return result;
     }
@@ -62,7 +63,7 @@ public class Result {
      */
     public static Result newSuccessResult(String resultMessage, Object data) {
         Result result = new Result();
-        result.setResultCode(ResultConstant.SUCCESS_CODE.getCode());
+        result.setResultCode(ResultConstant.SUCCESS_CODE.getKey());
         result.setResultMessage(resultMessage);
         result.setData(data);
         return result;
@@ -75,7 +76,7 @@ public class Result {
      */
     public static Result newErrorResult(String resultMessage) {
         Result result = new Result();
-        result.setResultCode(ResultConstant.ERROR_CODE.getCode());
+        result.setResultCode(ResultConstant.ERROR_CODE.getKey());
         result.setResultMessage(resultMessage);
         return result;
     }

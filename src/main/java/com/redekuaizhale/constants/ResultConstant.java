@@ -1,5 +1,11 @@
 package com.redekuaizhale.constants;
 
+/**
+ * 返回结果常量
+ * @author redekuaizhale
+ * @date 2019-05-31
+ * @company Dingxuan
+ */
 public enum ResultConstant {
 
     /**
@@ -12,13 +18,13 @@ public enum ResultConstant {
      */
     ERROR_CODE("-1");
 
-    String code;
+    String key;
 
-    ResultConstant(String code) {
-        this.code = code;
+    ResultConstant(String key) {
+        this.key = key;
     }
 
-    public String getCode() {
-        return code;
+    public String getKey() {
+        return key;
     }
 }

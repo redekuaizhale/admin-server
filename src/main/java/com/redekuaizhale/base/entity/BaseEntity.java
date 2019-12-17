@@ -17,11 +17,13 @@ package com.redekuaizhale.base.entity;
 
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
 /**
+ * 基础Entity
  * @author redekuaizhale
  * @date 2019-05-29
  * @company Dingxuan
@@ -47,7 +49,7 @@ public class BaseEntity implements Serializable {
     /**
      * 创建人id
      */
-    private String createId;
+    private String createUserId;
 
     /**
      * 创建日期
@@ -57,7 +59,7 @@ public class BaseEntity implements Serializable {
     /**
      * 更新人id
      */
-    private String updateId;
+    private String updateUserId;
 
     /**
      * 更新日期
