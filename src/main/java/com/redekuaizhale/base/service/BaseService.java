@@ -77,7 +77,7 @@ public abstract class BaseService<T extends BaseEntity> {
      * @param entity
      * @return
      */
-    public T add(T entity) {
+    public T save(T entity) {
         UserEntity user = UserThreadLocalUtils.get();
         Date date = new Date();
         entity.setCreateDate(date);

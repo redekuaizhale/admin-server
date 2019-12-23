@@ -17,9 +17,13 @@ package com.redekuaizhale.menu.service;
 
 import com.redekuaizhale.base.param.OrderParam;
 import com.redekuaizhale.base.service.BaseService;
+import com.redekuaizhale.menu.dto.RequestMenuDTO;
 import com.redekuaizhale.menu.entity.MenuEntity;
 import com.redekuaizhale.menu.repository.MenuRepository;
+import com.redekuaizhale.utils.bean.BeanCopyUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.event.spi.SaveOrUpdateEvent;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -62,10 +66,32 @@ public class MenuService extends BaseService<MenuEntity> {
 
     /**
      * 根据path查询
-     * @param name
+     * @param path
      * @return
      */
     public MenuEntity findByPath(String path) {
         return findByProperty("path", path);
+    }
+
+
+    /**
+     * 新增
+     * @param dto
+     */
+    public String add(RequestMenuDTO dto) {
+        MenuEntity menuEntity = new MenuEntity();
+        BeanCopyUtils.DTOToEntity(dto, menuEntity);
+        save(menuEntity);
+        return menuEntity.getId();
+    }
+
+    /**
+     * 修改
+     * @param dto
+     */
+    public void edit(RequestMenuDTO dto) {
+        MenuEntity menuEntity = findById(dto.getId());
+        BeanCopyUtils.DTOToEntity(dto, menuEntity);
+        update(menuEntity);
     }
 }

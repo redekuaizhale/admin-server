@@ -13,25 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.redekuaizhale.menu.entity;
+package com.redekuaizhale.menu.dto;
 
-import com.redekuaizhale.base.entity.BaseEntity;
+import com.redekuaizhale.base.dto.BaseDTO;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
 /**
- * 菜单Entity
  * @author zhanghui
- * @date 2019-06-13
+ * @date 2019-12-23
  * @company Dingxuan
  */
 @Data
-@Entity
-@Table(name = "t_menu")
-public class MenuEntity extends BaseEntity {
-
+public class MenuDTO extends BaseDTO {
     /**
      * 父id
      */
@@ -78,8 +71,7 @@ public class MenuEntity extends BaseEntity {
     private Integer menuOrder;
 
     /**
-     * 使用状态
+     * 是否可用
      */
     private String useFlag;
-
 }

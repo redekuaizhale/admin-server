@@ -19,11 +19,9 @@ import lombok.Data;
 
 /**
  * @author zhanghui
- * @date 2019-12-18
+ * @date 2019-12-23
  * @company Dingxuan
  */
 @Data
-public class ResponseMenuDTO extends MenuDTO {
-
-
+public class RequestMenuDTO extends MenuDTO {
 }

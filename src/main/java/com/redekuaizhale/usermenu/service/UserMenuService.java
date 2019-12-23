@@ -108,7 +108,7 @@ public class UserMenuService extends BaseService<UserMenuEntity> {
             return null;
         }
 
-        List<ResponseUserAllMenuDTO> userAllMenuDTOList = BeanCopyUtils.entityListToModelList(userAllParentMenuList, ResponseUserAllMenuDTO.class);
+        List<ResponseUserAllMenuDTO> userAllMenuDTOList = BeanCopyUtils.entityListToDTOList(userAllParentMenuList, ResponseUserAllMenuDTO.class);
 
         if (CollectionUtils.isEmpty(userAllMenuDTOList)) {
             return null;
@@ -131,7 +131,7 @@ public class UserMenuService extends BaseService<UserMenuEntity> {
         if(CollectionUtils.isEmpty(menuList)){
             return childList;
         }
-        childList = BeanCopyUtils.entityListToModelList(menuList, ResponseUserAllMenuDTO.class);
+        childList = BeanCopyUtils.entityListToDTOList(menuList, ResponseUserAllMenuDTO.class);
         for (ResponseUserAllMenuDTO menuDTO : childList) {
             menuDTO.setChildren(getChild(menuDTO.getId()));
         }

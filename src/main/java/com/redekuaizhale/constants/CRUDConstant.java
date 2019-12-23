@@ -32,4 +32,5 @@ public enum CRUDConstant {
     public String getValue() {
         return value;
     }
+
 }
