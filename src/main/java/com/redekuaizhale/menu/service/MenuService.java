@@ -47,7 +47,7 @@ public class MenuService extends BaseService<MenuEntity> {
     public List<MenuEntity> findByParentId(String parentId, String order) {
         OrderParam orderParam = new OrderParam();
         orderParam.setProperty("menuOrder");
-        orderParam.setDirecttion(StringUtils.isEmpty(order) ? "asc" : order);
+        orderParam.setDirection(StringUtils.isEmpty(order) ? "asc" : order);
         return findAllByProperty("parentId", parentId, orderParam);
     }
 

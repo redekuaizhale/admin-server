@@ -34,7 +34,7 @@ public class Page {
     /**
      * 每页显示条数
      */
-    private Integer pageSize = 10;
+    private Integer pageSize = Integer.MAX_VALUE;
 
     /**
      * 总条数

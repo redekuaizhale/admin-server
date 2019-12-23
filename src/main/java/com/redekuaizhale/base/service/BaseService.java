@@ -222,7 +222,7 @@ public abstract class BaseService<T extends BaseEntity> {
         return (List<T>) query(requestPage).getResultList();
     }
 
-    ResponsePage query(RequestPage requestPage) {
+    public ResponsePage query(RequestPage requestPage) {
         List<QueryParam> queryParams = requestPage.getQueryParamList();
         Integer rowsTotal = countByQueryParams(queryParams);
 
@@ -251,7 +251,7 @@ public abstract class BaseService<T extends BaseEntity> {
         String orderHql = " order by ";
         List<String> list = new ArrayList<>();
         for (OrderParam orderParam : orderParams) {
-            list.add(" t." + orderParam.getProperty() + " " + orderParam.getDirecttion());
+            list.add(" t." + orderParam.getProperty() + " " + orderParam.getDirection());
         }
         orderHql = orderHql + StringUtils.join(list.iterator(), ",");
         return orderHql;

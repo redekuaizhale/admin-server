@@ -15,10 +15,41 @@
  */
 package com.redekuaizhale.menu.controller;
 
+import com.redekuaizhale.base.request.RequestPage;
+import com.redekuaizhale.base.response.ResponsePage;
+import com.redekuaizhale.base.response.Result;
+import com.redekuaizhale.constants.CRUDConstant;
+import com.redekuaizhale.menu.dto.ResponseMenuDTO;
+import com.redekuaizhale.menu.entity.MenuEntity;
+import com.redekuaizhale.menu.service.MenuService;
+import com.redekuaizhale.utils.bean.BeanCopyUtils;
+import io.swagger.annotations.Api;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
 /**
  * @author zhanghui
  * @date 2019-12-10
  * @company Dingxuan
  */
+@RestController
+@RequestMapping("/menu/")
+@Api("菜单相关api")
 public class MenuController {
+
+    @Autowired
+    private MenuService menuService;
+
+    @PostMapping("query.do")
+    public Result query(@RequestBody RequestPage requestPage) {
+        ResponsePage query = menuService.query(requestPage);
+        List<MenuEntity> resultList = (List<MenuEntity>) query.getResultList();
+        List<ResponseMenuDTO> list = BeanCopyUtils.entityListToModelList(resultList, ResponseMenuDTO.class);
+        return Result.newSuccessResult(CRUDConstant.QUERY.getValue(), list);
+    }
 }

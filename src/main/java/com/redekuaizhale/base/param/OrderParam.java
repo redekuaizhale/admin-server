@@ -37,7 +37,7 @@ public class OrderParam {
     /**
      * asc or desc
      */
-    private String directtion;
+    private String direction;
 
     public static List<OrderParam> newOrderParams(OrderParam... orderParams) {
         if (orderParams == null) {
