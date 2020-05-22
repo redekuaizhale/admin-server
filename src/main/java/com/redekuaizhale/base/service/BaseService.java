@@ -37,6 +37,7 @@ import java.util.*;
 
 /**
  * 基础service
+ *
  * @author redekuaizhale
  * @date 2019-05-31
  * @company Dingxuan
@@ -64,6 +65,7 @@ public abstract class BaseService<T extends BaseEntity> {
 
     /**
      * 根据id查询
+     *
      * @param id
      * @return
      */
@@ -74,6 +76,7 @@ public abstract class BaseService<T extends BaseEntity> {
 
     /**
      * 保存或更新
+     *
      * @param entity
      * @return
      */
@@ -91,6 +94,7 @@ public abstract class BaseService<T extends BaseEntity> {
 
     /**
      * 更新
+     *
      * @param entity
      * @return
      */
@@ -104,6 +108,7 @@ public abstract class BaseService<T extends BaseEntity> {
 
     /**
      * 逻辑删除
+     *
      * @param id
      */
     public void deleteById(String id) {
@@ -117,13 +122,14 @@ public abstract class BaseService<T extends BaseEntity> {
 
     /**
      * 逻辑删除所有
+     *
      * @param list
      */
     public void deleteAll(List<T> list) {
         if (CollectionUtils.isEmpty(list)) {
             return;
         }
-        list.stream().forEach(t -> deleteById(t.getId()));
+        list.forEach(t -> deleteById(t.getId()));
     }
 
 
@@ -138,6 +144,7 @@ public abstract class BaseService<T extends BaseEntity> {
 
     /**
      * 根据单字段名查询，返回一条数据
+     *
      * @param field
      * @param value
      * @param orderParams
@@ -153,6 +160,7 @@ public abstract class BaseService<T extends BaseEntity> {
 
     /**
      * 根据单字段名查询，返回多条数据
+     *
      * @param field
      * @param value
      * @param orderParams
@@ -168,6 +176,7 @@ public abstract class BaseService<T extends BaseEntity> {
 
     /**
      * 根据多个字段查询，返回单条数据
+     *
      * @param properties
      * @param orderParams
      * @return
@@ -199,6 +208,7 @@ public abstract class BaseService<T extends BaseEntity> {
 
     /**
      * 根据多个字段查询，返回多条数据
+     *
      * @param properties
      * @param orderParams
      * @return
@@ -244,6 +254,12 @@ public abstract class BaseService<T extends BaseEntity> {
         return responsePage;
     }
 
+    public void addQueryEnableFlag(RequestPage requestPage, List<String> attributes) {
+        attributes.forEach(item -> {
+            requestPage.getQueryParamList().add(QueryParam.newQueryParam(item + ".enabled", "=", BaseEntityConstant.ENABLE.getKey()));
+        });
+    }
+
     String createOrderHql(List<OrderParam> orderParams) {
         if (CollectionUtils.isEmpty(orderParams)) {
             return "";
@@ -267,7 +283,7 @@ public abstract class BaseService<T extends BaseEntity> {
     }
 
     String createHql(List<QueryParam> queryParams) {
-        StringBuilder hql = new StringBuilder(" from " + this.clazz.getName() + " t where 1 = 1 ");
+        StringBuilder hql = new StringBuilder(" from " + this.clazz.getName() + " t where t.delFlag = " + BaseEntityConstant.ENABLE.getKey());
         return createHqldetail(queryParams, hql);
     }
 

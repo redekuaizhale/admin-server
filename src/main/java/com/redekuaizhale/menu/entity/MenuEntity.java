@@ -70,7 +70,7 @@ public class MenuEntity extends BaseEntity {
     /**
      * 是否隐藏
      */
-    private Boolean hidden;
+    private String hidden;
 
     /**
      * 菜单排序

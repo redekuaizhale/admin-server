@@ -83,7 +83,6 @@ public class UserMenuService extends BaseService<UserMenuEntity> {
             throw new ServiceException("您暂时无权限访问！");
         }
     }
-
     /**
      * 根据用户id查询所有菜单
      * @param userId

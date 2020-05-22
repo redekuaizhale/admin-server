@@ -69,4 +69,11 @@ public class MenuController {
         menuService.edit(request);
         return Result.newSuccessResult(CRUDConstant.UPDATE.getValue());
     }
+
+    @PostMapping("delete.do")
+    @ApiOperation("删除菜单")
+    public Result delete(@RequestBody RequestMenuDTO request) {
+        menuService.deleteById(request.getId());
+        return Result.newSuccessResult(CRUDConstant.DELETE.getValue());
+    }
 }

@@ -63,7 +63,7 @@ public class MenuDTO extends BaseDTO {
     /**
      * 是否隐藏
      */
-    private Boolean hidden;
+    private String hidden;
 
     /**
      * 菜单排序
