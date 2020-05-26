@@ -79,10 +79,10 @@ public class MenuService extends BaseService<MenuEntity> {
      * @param dto
      */
     public String add(RequestMenuDTO dto) {
-        MenuEntity menuEntity = new MenuEntity();
-        BeanCopyUtils.DTOToEntity(dto, menuEntity);
-        save(menuEntity);
-        return menuEntity.getId();
+        MenuEntity entity = new MenuEntity();
+        BeanCopyUtils.DTOToEntity(dto, entity);
+        save(entity);
+        return entity.getId();
     }
 
     /**
@@ -90,8 +90,8 @@ public class MenuService extends BaseService<MenuEntity> {
      * @param dto
      */
     public void edit(RequestMenuDTO dto) {
-        MenuEntity menuEntity = findById(dto.getId());
-        BeanCopyUtils.DTOToEntity(dto, menuEntity);
-        update(menuEntity);
+        MenuEntity entity = findById(dto.getId());
+        BeanCopyUtils.DTOToEntity(dto, entity);
+        update(entity);
     }
 }

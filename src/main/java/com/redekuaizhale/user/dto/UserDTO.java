@@ -15,20 +15,59 @@
  */
 package com.redekuaizhale.user.dto;
 
+import com.redekuaizhale.base.dto.BaseDTO;
 import lombok.Data;
 
 /**
- * 用户响应DTO
  * @author zhanghui
- * @date 2019-06-24
+ * @date 2020-05-26
  * @company Dingxuan
  */
 @Data
-public class ResponseUserDTO extends UserDTO {
+public class UserDTO extends BaseDTO {
 
     /**
-     * token
+     * 登录名
      */
-    private String token;
+    private String loginCode;
 
+    /**
+     * 密码
+     */
+    private String password;
+
+    /**
+     * 姓名
+     */
+    private String name;
+
+    /**
+     * 性别
+     */
+    private String gender;
+
+    /**
+     * 年龄
+     */
+    private Integer age;
+
+    /**
+     * 电话
+     */
+    private String phone;
+
+    /**
+     * 邮箱
+     */
+    private String email;
+
+    /**
+     * 身份证号码
+     */
+    private String idCard;
+
+    /**
+     * 备注
+     */
+    private String remark;
 }

@@ -18,9 +18,11 @@ package com.redekuaizhale.user.service;
 import com.redekuaizhale.base.exception.ServiceException;
 import com.redekuaizhale.base.service.BaseService;
 import com.redekuaizhale.user.dto.RequestLoginUserDTO;
+import com.redekuaizhale.user.dto.RequestUserDTO;
 import com.redekuaizhale.user.dto.ResponseUserDTO;
 import com.redekuaizhale.user.entity.UserEntity;
 import com.redekuaizhale.user.repository.UserRepository;
+import com.redekuaizhale.utils.bean.BeanCopyUtils;
 import com.redekuaizhale.utils.redis.RedisUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +49,11 @@ public class UserService extends BaseService<UserEntity> {
         super.baseRepository = userRepository;
     }
 
+    /**
+     * 获取登录人信息
+     * @param request
+     * @return
+     */
     public ResponseUserDTO getLoginUser(RequestLoginUserDTO request) {
         Map<String, Object> queryMap = new HashMap<>(2);
         queryMap.put("loginCode", request.getLoginCode());
@@ -63,5 +70,27 @@ public class UserService extends BaseService<UserEntity> {
 
         userDTO.setToken(token);
         return userDTO;
+    }
+
+    /**
+     * 新增
+     * @param dto
+     * @return
+     */
+    public String add(RequestUserDTO dto) {
+        UserEntity entity = new UserEntity();
+        BeanCopyUtils.DTOToEntity(dto, entity);
+        save(entity);
+        return entity.getId();
+    }
+
+    /**
+     * 修改
+     * @param dto
+     */
+    public void edit(RequestUserDTO dto) {
+        UserEntity entity = findById(dto.getId());
+        BeanCopyUtils.DTOToEntity(dto, entity);
+        update(entity);
     }
 }

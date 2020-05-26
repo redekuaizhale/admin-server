@@ -15,17 +15,25 @@
  */
 package com.redekuaizhale.user.controller;
 
+import com.redekuaizhale.base.request.RequestPage;
+import com.redekuaizhale.base.response.ResponsePage;
 import com.redekuaizhale.base.response.Result;
+import com.redekuaizhale.constants.CRUDConstant;
 import com.redekuaizhale.user.dto.RequestLoginUserDTO;
+import com.redekuaizhale.user.dto.RequestUserDTO;
+import com.redekuaizhale.user.dto.ResponseUserDTO;
 import com.redekuaizhale.user.entity.UserEntity;
 import com.redekuaizhale.user.service.UserService;
 import com.redekuaizhale.usermenu.service.UserMenuService;
+import com.redekuaizhale.utils.bean.BeanCopyUtils;
 import com.redekuaizhale.utils.threadlocal.UserThreadLocalUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author redekuaizhale
@@ -61,5 +69,36 @@ public class UserController {
     public Result userMenuPermission(@RequestParam String path) {
         userMenuService.validateUserPermissions(path);
         return Result.newSuccessResult("验证权限通过！");
+    }
+
+    @PostMapping("query.do")
+    @ApiOperation("用户查询")
+    public Result query(@RequestBody RequestPage requestPage) {
+        ResponsePage result = userService.query(requestPage);
+        List<UserEntity> resultList = (List<UserEntity>) result.getResultList();
+        List<ResponseUserDTO> list = BeanCopyUtils.entityListToDTOList(resultList, ResponseUserDTO.class);
+        result.setResultList(list);
+        return Result.newSuccessResult(CRUDConstant.QUERY.getValue(), result);
+    }
+
+    @PostMapping("add.do")
+    @ApiOperation("添加用户")
+    public Result add(@RequestBody RequestUserDTO request) {
+        String id = userService.add(request);
+        return Result.newSuccessResult(CRUDConstant.ADD.getValue(),id);
+    }
+
+    @PostMapping("edit.do")
+    @ApiOperation("修改用户")
+    public Result edit(@RequestBody RequestUserDTO request) {
+        userService.edit(request);
+        return Result.newSuccessResult(CRUDConstant.UPDATE.getValue());
+    }
+
+    @PostMapping("delete.do")
+    @ApiOperation("删除用户")
+    public Result delete(@RequestBody RequestUserDTO request) {
+        userService.deleteById(request.getId());
+        return Result.newSuccessResult(CRUDConstant.DELETE.getValue());
     }
 }

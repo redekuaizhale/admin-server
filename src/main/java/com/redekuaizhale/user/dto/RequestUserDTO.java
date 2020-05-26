@@ -18,17 +18,10 @@ package com.redekuaizhale.user.dto;
 import lombok.Data;
 
 /**
- * 用户响应DTO
  * @author zhanghui
- * @date 2019-06-24
+ * @date 2020-05-26
  * @company Dingxuan
  */
 @Data
-public class ResponseUserDTO extends UserDTO {
-
-    /**
-     * token
-     */
-    private String token;
-
+public class RequestUserDTO extends UserDTO {
 }

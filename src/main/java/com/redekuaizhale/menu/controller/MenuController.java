@@ -50,10 +50,11 @@ public class MenuController {
     @PostMapping("query.do")
     @ApiOperation("菜单查询")
     public Result query(@RequestBody RequestPage requestPage) {
-        ResponsePage query = menuService.query(requestPage);
-        List<MenuEntity> resultList = (List<MenuEntity>) query.getResultList();
+        ResponsePage result = menuService.query(requestPage);
+        List<MenuEntity> resultList = (List<MenuEntity>) result.getResultList();
         List<ResponseMenuDTO> list = BeanCopyUtils.entityListToDTOList(resultList, ResponseMenuDTO.class);
-        return Result.newSuccessResult(CRUDConstant.QUERY.getValue(), list);
+        result.setResultList(list);
+        return Result.newSuccessResult(CRUDConstant.QUERY.getValue(), result);
     }
 
     @PostMapping("add.do")
