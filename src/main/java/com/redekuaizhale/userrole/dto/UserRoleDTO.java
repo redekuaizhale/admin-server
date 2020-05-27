@@ -13,33 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.redekuaizhale.base.request;
+package com.redekuaizhale.userrole.dto;
 
-import com.redekuaizhale.base.page.Page;
-import com.redekuaizhale.base.param.OrderParam;
-import com.redekuaizhale.base.param.QueryParam;
+import com.redekuaizhale.userrole.entity.UserRoleEntity;
 import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * 分页请求
- * @author redekuaizhale
- * @date 2019-05-31
+ * @author zhanghui
+ * @date 2020-05-27
  * @company Dingxuan
  */
 @Data
-public class RequestPage extends Page {
-
-    /**
-     * 查询条件
-     */
-    private List<QueryParam> queryParamList = new ArrayList<>();
-
-    /**
-     * 排序条件
-     */
-    private List<OrderParam> orderParamList = new ArrayList<>();
-
+public class UserRoleDTO extends UserRoleEntity {
 }

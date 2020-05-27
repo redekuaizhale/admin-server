@@ -13,33 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.redekuaizhale.base.request;
+package com.redekuaizhale.role.repository;
 
-import com.redekuaizhale.base.page.Page;
-import com.redekuaizhale.base.param.OrderParam;
-import com.redekuaizhale.base.param.QueryParam;
-import lombok.Data;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.redekuaizhale.base.repository.BaseRepository;
+import com.redekuaizhale.role.entity.RoleEntity;
+import org.springframework.stereotype.Repository;
 
 /**
- * 分页请求
- * @author redekuaizhale
- * @date 2019-05-31
+ * @author zhanghui
+ * @date 2019-06-13
  * @company Dingxuan
  */
-@Data
-public class RequestPage extends Page {
-
-    /**
-     * 查询条件
-     */
-    private List<QueryParam> queryParamList = new ArrayList<>();
-
-    /**
-     * 排序条件
-     */
-    private List<OrderParam> orderParamList = new ArrayList<>();
-
+@Repository
+public interface RoleRepository extends BaseRepository<RoleEntity, String> {
 }

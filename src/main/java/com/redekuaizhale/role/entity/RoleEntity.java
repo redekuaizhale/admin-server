@@ -13,33 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.redekuaizhale.base.request;
+package com.redekuaizhale.role.entity;
 
-import com.redekuaizhale.base.page.Page;
-import com.redekuaizhale.base.param.OrderParam;
-import com.redekuaizhale.base.param.QueryParam;
+import com.redekuaizhale.base.entity.BaseEntity;
 import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
- * 分页请求
- * @author redekuaizhale
- * @date 2019-05-31
+ * @author zhanghui
+ * @date 2020-05-27
  * @company Dingxuan
  */
 @Data
-public class RequestPage extends Page {
+@Entity
+@Table(name = "t_role")
+public class RoleEntity extends BaseEntity {
 
     /**
-     * 查询条件
+     * 名称
      */
-    private List<QueryParam> queryParamList = new ArrayList<>();
+    private String name;
 
     /**
-     * 排序条件
+     * 编码
      */
-    private List<OrderParam> orderParamList = new ArrayList<>();
+    private String code;
+
+    /**
+     * 描述
+     */
+    private String remark;
 
 }

@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -67,8 +68,10 @@ public class BeanCopyUtils {
         try {
             model = modelClass.newInstance();
         } catch (InstantiationException e) {
+            e.printStackTrace();
             log.error("entityToDTO : 实例化异常", e);
         } catch (IllegalAccessException e) {
+            e.printStackTrace();
             log.error("entityToDTO : 安全权限异常", e);
         }
         BeanUtils.copyProperties(entity, model);
@@ -80,8 +83,7 @@ public class BeanCopyUtils {
      * @param source
      * @param target
      */
-    public static void DTOToEntity(Object source, Object target) {
-        BeanUtils.copyProperties(source, target,"id","version","del_flag","create_user_id","create_date","update_user_id","update_date");
+    public static void DTOToEntity(Object source, Object target,String... ignoreProperties) {
+        BeanUtils.copyProperties(source, target,"id","version","del_flag","create_user_id","create_date","update_user_id","update_date", Arrays.toString(ignoreProperties));
     }
-
 }
