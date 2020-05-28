@@ -1,16 +1,21 @@
 package com.redekuaizhale.dept.constant;
 
+/**
+ * @author zhanghui
+ * @date 2019-12-10
+ * @company Dingxuan
+ */
 public enum DeptConstant {
 
     COMPANY_ENTITY("companyEntity");
 
-    String key;
+    String value;
 
-    DeptConstant(String key) {
-        this.key = key;
+    DeptConstant(String value) {
+        this.value = value;
     }
 
-    public String getKey() {
-        return key;
+    public String getValue() {
+        return value;
     }
 }

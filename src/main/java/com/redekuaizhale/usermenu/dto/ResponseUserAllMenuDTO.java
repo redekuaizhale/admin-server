@@ -15,10 +15,7 @@
  */
 package com.redekuaizhale.usermenu.dto;
 
-import com.redekuaizhale.base.dto.BaseDTO;
 import lombok.Data;
-
-import java.util.List;
 
 /**
  * 用户菜单响应DTO
@@ -27,24 +24,6 @@ import java.util.List;
  * @company Dingxuan
  */
 @Data
-public class ResponseUserAllMenuDTO extends BaseDTO {
-
-    private String title;
-
-    private String path;
-
-    private String name;
-
-    private String parentName;
-
-    private String redirect;
-
-    private String component;
-
-    private Boolean hidden;
-
-    private String icon;
-
-    private List<ResponseUserAllMenuDTO> children;
+public class ResponseUserAllMenuDTO extends UserMenuDTO {
 
 }

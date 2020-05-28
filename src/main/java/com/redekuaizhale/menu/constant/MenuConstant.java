@@ -1,5 +1,10 @@
 package com.redekuaizhale.menu.constant;
 
+/**
+ * @author zhanghui
+ * @date 2019-12-10
+ * @company Dingxuan
+ */
 public enum MenuConstant {
 
     /**
@@ -8,13 +13,13 @@ public enum MenuConstant {
     PARENT_MENU_FLAG("0");
 
 
-    String key;
+    String value;
 
-    MenuConstant(String key) {
-        this.key = key;
+    MenuConstant(String value) {
+        this.value = value;
     }
 
-    public String getKey() {
-        return key;
+    public String getValue() {
+        return value;
     }
 }

@@ -21,6 +21,8 @@ import com.redekuaizhale.menu.constant.MenuConstant;
 import com.redekuaizhale.menu.entity.MenuEntity;
 import com.redekuaizhale.menu.service.MenuService;
 import com.redekuaizhale.user.entity.UserEntity;
+import com.redekuaizhale.user.service.UserService;
+import com.redekuaizhale.usermenu.dto.RequestUserAllMenuDTO;
 import com.redekuaizhale.usermenu.dto.ResponseUserAllMenuDTO;
 import com.redekuaizhale.usermenu.entity.UserMenuEntity;
 import com.redekuaizhale.usermenu.repository.UserMenuRepository;
@@ -31,10 +33,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 用户菜单Service
@@ -49,12 +49,15 @@ public class UserMenuService extends BaseService<UserMenuEntity> {
     private MenuService menuService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     public void setRository(UserMenuRepository userMenuRepository) {
         super.baseRepository = userMenuRepository;
     }
 
     /**
-     * 根据userId查询用户菜单
+     * 根据userId查询
      * @param userId
      * @return
      */
@@ -62,11 +65,54 @@ public class UserMenuService extends BaseService<UserMenuEntity> {
         return findAllByProperty("userEntity.id",userId);
     }
 
+    /**
+     * 根据userId和menuId查询
+     * @param userId
+     * @param menuId
+     * @return
+     */
     public UserMenuEntity findByMenuIdAndUserId(String userId, String menuId) {
-        Map<String, Object> map = new HashMap<>(16);
+        Map<String, Object> map = new HashMap<>(2);
         map.put("userEntity.id", userId);
         map.put("menuEntity.id", menuId);
         return findByProperties(map);
+    }
+
+    /**
+     * 根据userId删除
+     * @param userId
+     */
+    public void deleteByUserId(String userId) {
+        List<UserMenuEntity> userMenuEntityList = findByUserId(userId);
+        deleteAll(userMenuEntityList);
+    }
+
+    /**
+     * 修改
+     * @param request
+     */
+    public void edit(RequestUserAllMenuDTO request) {
+        String userId = request.getUserEntity().getId();
+        deleteByUserId(userId);
+        addUserMenu(userId,request.getMenuIdList());
+    }
+
+    /**
+     * 添加菜单
+     * @param userId
+     * @param menuIdList
+     */
+    public void addUserMenu(String userId, List<String> menuIdList) {
+        if (CollectionUtils.isNotEmpty(menuIdList)) {
+            UserEntity userEntity = userService.findById(userId);
+            menuIdList.forEach(id->{
+                UserMenuEntity userMenuEntity = new UserMenuEntity();
+                MenuEntity menuEntity = menuService.findById(id);
+                userMenuEntity.setMenuEntity(menuEntity);
+                userMenuEntity.setUserEntity(userEntity);
+                save(userMenuEntity);
+            });
+        }
     }
 
     /**
@@ -83,6 +129,48 @@ public class UserMenuService extends BaseService<UserMenuEntity> {
             throw new ServiceException("您暂时无权限访问！");
         }
     }
+
+    /**
+     * 获取系统所有菜单
+     * @return
+     */
+    public List<ResponseUserAllMenuDTO> getAllMenus() {
+        List<MenuEntity> allMenuList = menuService.findByParentId(MenuConstant.PARENT_MENU_FLAG.getValue(), null);
+        List<ResponseUserAllMenuDTO> allMenuListDTO = BeanCopyUtils.entityListToDTOList(allMenuList, ResponseUserAllMenuDTO.class);
+
+        if (CollectionUtils.isEmpty(allMenuListDTO)) {
+            return null;
+        }
+        for (ResponseUserAllMenuDTO menu : allMenuListDTO) {
+            menu.setChildren(getChild(menu.getId()));
+        }
+        return allMenuListDTO;
+    }
+
+    /**
+     * 标记用户已有菜单
+     * @param allMenuDTO
+     * @param userId
+     * @return
+     */
+    public List<ResponseUserAllMenuDTO> checkHasMenus(List<ResponseUserAllMenuDTO> allMenuDTO,String userId) {
+        for (ResponseUserAllMenuDTO parent : allMenuDTO) {
+            parent.setExpand(Boolean.TRUE);
+            List<ResponseUserAllMenuDTO> children = parent.getChildren();
+            if (CollectionUtils.isEmpty(children)) {
+                continue;
+            }
+            for (ResponseUserAllMenuDTO child : children) {
+                UserMenuEntity userMenu = findByMenuIdAndUserId(userId, child.getId());
+                if (userMenu != null) {
+                    child.setChecked(Boolean.TRUE);
+                }
+                child.setExpand(Boolean.TRUE);
+            }
+        }
+        return allMenuDTO;
+    }
+    
     /**
      * 根据用户id查询所有菜单
      * @param userId
@@ -93,28 +181,22 @@ public class UserMenuService extends BaseService<UserMenuEntity> {
         List<UserMenuEntity> userAllMenu = findByUserId(userId);
 
         if (CollectionUtils.isEmpty(userAllMenu)) {
-            return null;
+            throw new ServiceException("无权限登录， 请联系管理员！");
         }
+
+        List<String> hasIdList = userAllMenu.stream().map(item->item.getMenuEntity().getId()).collect(Collectors.toList());
 
         userAllMenu.forEach(item->{
             MenuEntity menuEntity = menuService.findById(item.getMenuEntity().getId());
-            if (StringUtils.equals(menuEntity.getParentId(), MenuConstant.PARENT_MENU_FLAG.getKey())) {
+            if (StringUtils.equals(menuEntity.getParentId(), MenuConstant.PARENT_MENU_FLAG.getValue())) {
                 userAllParentMenuList.add(menuEntity);
             }
         });
 
-        if (CollectionUtils.isEmpty(userAllParentMenuList)) {
-            return null;
-        }
-
         List<ResponseUserAllMenuDTO> userAllMenuDTOList = BeanCopyUtils.entityListToDTOList(userAllParentMenuList, ResponseUserAllMenuDTO.class);
 
-        if (CollectionUtils.isEmpty(userAllMenuDTOList)) {
-            return null;
-        }
-
         for (ResponseUserAllMenuDTO menu : userAllMenuDTOList) {
-            menu.setChildren(getChild(menu.getId()));
+            menu.setChildren(getChild(menu.getId(), hasIdList.toString()));
         }
         return userAllMenuDTOList;
     }
@@ -124,15 +206,18 @@ public class UserMenuService extends BaseService<UserMenuEntity> {
      * @param menuId
      * @return
      */
-    public List<ResponseUserAllMenuDTO> getChild(String menuId) {
+    public List<ResponseUserAllMenuDTO> getChild(String menuId,String... hasIdList) {
         List<ResponseUserAllMenuDTO> childList = new ArrayList<>();
         List<MenuEntity> menuList = menuService.findByParentId(menuId, null);
         if(CollectionUtils.isEmpty(menuList)){
             return childList;
         }
+        if (hasIdList != null && hasIdList.length > 0) {
+            menuList = menuList.stream().filter(item -> Arrays.toString(hasIdList).contains(item.getId())).collect(Collectors.toList());
+        }
         childList = BeanCopyUtils.entityListToDTOList(menuList, ResponseUserAllMenuDTO.class);
         for (ResponseUserAllMenuDTO menuDTO : childList) {
-            menuDTO.setChildren(getChild(menuDTO.getId()));
+            menuDTO.setChildren(getChild(menuDTO.getId(),hasIdList));
         }
         return childList;
     }

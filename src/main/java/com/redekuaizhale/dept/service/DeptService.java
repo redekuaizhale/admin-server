@@ -60,7 +60,7 @@ public class DeptService extends BaseService<DeptEntity> {
      */
     public void edit(RequestDeptDTO dto) {
         DeptEntity entity = findById(dto.getId());
-        BeanCopyUtils.DTOToEntity(dto, entity, DeptConstant.COMPANY_ENTITY.getKey());
+        BeanCopyUtils.DTOToEntity(dto, entity, "companyEntity");
         update(entity);
     }
 }

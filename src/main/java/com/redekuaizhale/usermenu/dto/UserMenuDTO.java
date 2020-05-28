@@ -15,27 +15,38 @@
  */
 package com.redekuaizhale.usermenu.dto;
 
+import com.redekuaizhale.usermenu.entity.UserMenuEntity;
 import lombok.Data;
 
 import java.util.List;
 
 /**
- * 用户菜单请求DTO
- *
  * @author zhanghui
- * @date 2019-06-13
+ * @date 2020-05-28
  * @company Dingxuan
  */
 @Data
-public class RequestUserAllMenuDTO extends UserMenuDTO {
+public class UserMenuDTO extends UserMenuEntity {
 
-    private List<String> menuIdList;
+    private String title;
 
-    public List<String> getMenuIdList() {
-        return menuIdList;
-    }
+    private String path;
 
-    public void setMenuIdList(List<String> menuIdList) {
-        this.menuIdList = menuIdList;
-    }
+    private String name;
+
+    private String parentName;
+
+    private String redirect;
+
+    private String component;
+
+    private Boolean hidden;
+
+    private String icon;
+
+    private Boolean checked;
+
+    private Boolean expand;
+
+    private List<ResponseUserAllMenuDTO> children;
 }

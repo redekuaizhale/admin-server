@@ -24,6 +24,7 @@ import com.redekuaizhale.user.dto.RequestUserDTO;
 import com.redekuaizhale.user.dto.ResponseUserDTO;
 import com.redekuaizhale.user.entity.UserEntity;
 import com.redekuaizhale.user.service.UserService;
+import com.redekuaizhale.usermenu.dto.ResponseUserAllMenuDTO;
 import com.redekuaizhale.usermenu.service.UserMenuService;
 import com.redekuaizhale.utils.bean.BeanCopyUtils;
 import com.redekuaizhale.utils.threadlocal.UserThreadLocalUtils;
