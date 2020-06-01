@@ -15,7 +15,7 @@
  */
 package com.redekuaizhale.usermenu.dto;
 
-import com.redekuaizhale.usermenu.entity.UserMenuEntity;
+import com.redekuaizhale.base.dto.BaseDTO;
 import lombok.Data;
 
 import java.util.List;
@@ -26,7 +26,9 @@ import java.util.List;
  * @company Dingxuan
  */
 @Data
-public class UserMenuDTO extends UserMenuEntity {
+public class UserMenuDTO extends BaseDTO {
+
+    private String userId;
 
     private String title;
 

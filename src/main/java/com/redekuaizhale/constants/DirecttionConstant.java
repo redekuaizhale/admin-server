@@ -76,7 +76,13 @@ public enum DirecttionConstant {
     /**
      * 降序
      */
-    DESC("desc");
+    DESC("desc"),
+
+
+    /**
+     * 分隔符号
+     */
+    SPLIT(",");
 
     /**
      * 编码

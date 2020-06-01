@@ -15,7 +15,7 @@
  */
 package com.redekuaizhale.userrole.dto;
 
-import com.redekuaizhale.userrole.entity.UserRoleEntity;
+import com.redekuaizhale.base.dto.BaseDTO;
 import lombok.Data;
 
 /**
@@ -24,5 +24,15 @@ import lombok.Data;
  * @company Dingxuan
  */
 @Data
-public class UserRoleDTO extends UserRoleEntity {
+public class UserRoleDTO extends BaseDTO {
+
+    /**
+     * 用户id
+     */
+    private String userId;
+
+    /**
+     * 角色id
+     */
+    private String roleId;
 }

@@ -30,5 +30,4 @@ public class BaseDTO {
      * id
      */
     private String id;
-
 }

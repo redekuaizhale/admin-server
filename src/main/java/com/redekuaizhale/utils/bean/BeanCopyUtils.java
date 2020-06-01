@@ -16,6 +16,7 @@
 package com.redekuaizhale.utils.bean;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class BeanCopyUtils {
      * @return
      */
     public static <F, T> List<T> entityListToDTOList(List<F> fromList, Class<T> tClass) {
-        if (fromList.isEmpty()) {
+        if (CollectionUtils.isEmpty(fromList)) {
             return null;
         }
         List<T> tList = new ArrayList<>();

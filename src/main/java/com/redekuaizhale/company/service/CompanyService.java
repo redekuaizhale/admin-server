@@ -16,12 +16,18 @@
 package com.redekuaizhale.company.service;
 
 import com.redekuaizhale.base.service.BaseService;
+import com.redekuaizhale.company.dto.CompanyDTO;
 import com.redekuaizhale.company.dto.RequestCompanyDTO;
 import com.redekuaizhale.company.entity.CompanyEntity;
 import com.redekuaizhale.company.repository.CompanyRepository;
+import com.redekuaizhale.constants.BaseEntityConstant;
+import com.redekuaizhale.constants.DirecttionConstant;
 import com.redekuaizhale.utils.bean.BeanCopyUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author zhanghui
@@ -35,24 +41,53 @@ public class CompanyService extends BaseService<CompanyEntity> {
     public void setRository(CompanyRepository repository) {
         super.baseRepository = repository;
     }
+
+    public CompanyEntity findByParentId(String parentId) {
+        return findByProperty("parentId", parentId);
+    }
+
+    public List<CompanyEntity> findAllByParentId(String parentId) {
+        return findAllByProperty("parentId", parentId);
+    }
     /**
      * 新增
-     * @param dto
+     * @param reqeust
      */
-    public String add(RequestCompanyDTO dto) {
+    public String add(RequestCompanyDTO reqeust) {
         CompanyEntity entity = new CompanyEntity();
-        BeanCopyUtils.DTOToEntity(dto, entity);
+        BeanCopyUtils.DTOToEntity(reqeust, entity);
+        save(entity);
+        String path;
+        if (StringUtils.equals(BaseEntityConstant.PARENT.getValue(), reqeust.getParentId())) {
+            path = entity.getId();
+        }else{
+            path = StringUtils.join(reqeust.getParentId(), DirecttionConstant.SPLIT.getKey(), entity.getId());
+        }
+        entity.setPath(path);
         save(entity);
         return entity.getId();
     }
 
     /**
      * 修改
-     * @param dto
+     * @param request
      */
-    public void edit(RequestCompanyDTO dto) {
-        CompanyEntity entity = findById(dto.getId());
-        BeanCopyUtils.DTOToEntity(dto, entity);
+    public void edit(RequestCompanyDTO request) {
+        CompanyEntity entity = findById(request.getId());
+        BeanCopyUtils.DTOToEntity(request, entity);
         update(entity);
+    }
+
+    /**
+     * 查询机构树
+     * @return
+     */
+    public CompanyDTO findCompanyTree() {
+        CompanyEntity parent = findByParentId(BaseEntityConstant.PARENT.getValue());
+        CompanyDTO dto = BeanCopyUtils.entityToDTO(parent, CompanyDTO.class);
+        List<CompanyEntity> companyEntityList = findAllByParentId(parent.getId());
+        List<CompanyDTO> childList = BeanCopyUtils.entityListToDTOList(companyEntityList, CompanyDTO.class);
+        dto.setChildren(childList);
+        return dto;
     }
 }

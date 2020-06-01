@@ -66,4 +66,9 @@ public class CompanyEntity extends BaseEntity {
      */
     private String address;
 
+    /**
+     * 排序字段
+     */
+    private Integer companyOrder;
+
 }

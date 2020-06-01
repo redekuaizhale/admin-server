@@ -17,6 +17,7 @@ package com.redekuaizhale.usermenu.service;
 
 import com.redekuaizhale.base.exception.ServiceException;
 import com.redekuaizhale.base.service.BaseService;
+import com.redekuaizhale.constants.BaseEntityConstant;
 import com.redekuaizhale.menu.constant.MenuConstant;
 import com.redekuaizhale.menu.entity.MenuEntity;
 import com.redekuaizhale.menu.service.MenuService;
@@ -92,7 +93,7 @@ public class UserMenuService extends BaseService<UserMenuEntity> {
      * @param request
      */
     public void edit(RequestUserAllMenuDTO request) {
-        String userId = request.getUserEntity().getId();
+        String userId = request.getUserId();
         deleteByUserId(userId);
         addUserMenu(userId,request.getMenuIdList());
     }
@@ -135,7 +136,7 @@ public class UserMenuService extends BaseService<UserMenuEntity> {
      * @return
      */
     public List<ResponseUserAllMenuDTO> getAllMenus() {
-        List<MenuEntity> allMenuList = menuService.findByParentId(MenuConstant.PARENT_MENU_FLAG.getValue(), null);
+        List<MenuEntity> allMenuList = menuService.findByParentId(BaseEntityConstant.PARENT.getValue(), null);
         List<ResponseUserAllMenuDTO> allMenuListDTO = BeanCopyUtils.entityListToDTOList(allMenuList, ResponseUserAllMenuDTO.class);
 
         if (CollectionUtils.isEmpty(allMenuListDTO)) {
@@ -181,7 +182,7 @@ public class UserMenuService extends BaseService<UserMenuEntity> {
         List<UserMenuEntity> userAllMenu = findByUserId(userId);
 
         if (CollectionUtils.isEmpty(userAllMenu)) {
-            throw new ServiceException("无权限登录， 请联系管理员！");
+            throw new ServiceException("未配置菜单权限， 请联系管理员！");
         }
 
         List<String> hasIdList = userAllMenu.stream().map(item->item.getMenuEntity().getId()).collect(Collectors.toList());

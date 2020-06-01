@@ -77,4 +77,11 @@ public class CompanyController {
         companyService.deleteById(request.getId());
         return Result.newSuccessResult(CRUDConstant.DELETE.getValue());
     }
+
+    @PostMapping("findCompanyTree.do")
+    @ApiOperation("查询机构树")
+    public Result findCompanyTree(@RequestBody RequestCompanyDTO request) {
+        return Result.newSuccessResult(CRUDConstant.DELETE.getValue(), companyService.findCompanyTree());
+    }
+
 }

@@ -47,7 +47,7 @@ public class UserMenuController {
     @ApiOperation("获取用户已有菜单")
     public Result userHasMenus(@RequestBody RequestUserAllMenuDTO request) {
         List<ResponseUserAllMenuDTO> allMenus = userMenuService.getAllMenus();
-        userMenuService.checkHasMenus(allMenus,request.getUserEntity().getId());
+        userMenuService.checkHasMenus(allMenus,request.getUserId());
         return Result.newSuccessResult(CRUDConstant.QUERY.getValue(),allMenus);
     }
 

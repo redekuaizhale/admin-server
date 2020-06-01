@@ -31,15 +31,20 @@ public enum BaseEntityConstant {
     /**
      * 已删除
      */
-    DELETE("1");
+    DELETE("1"),
 
-    String key;
+    /**
+     * 根节点
+     */
+    PARENT("0");
 
-    BaseEntityConstant(String key) {
-        this.key = key;
+    String value;
+
+    BaseEntityConstant(String value) {
+        this.value = value;
     }
 
-    public String getKey() {
-        return key;
+    public String getValue() {
+        return value;
     }
 }

@@ -15,8 +15,10 @@
  */
 package com.redekuaizhale.company.dto;
 
-import com.redekuaizhale.company.entity.CompanyEntity;
+import com.redekuaizhale.base.dto.BaseDTO;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * @author zhanghui
@@ -24,5 +26,50 @@ import lombok.Data;
  * @company Dingxuan
  */
 @Data
-public class CompanyDTO extends CompanyEntity {
+public class CompanyDTO extends BaseDTO {
+
+    /**
+     * 父id
+     */
+    private String parentId;
+
+    /**
+     * 名称
+     */
+    private String name;
+
+    /**
+     * 全称
+     */
+    private String fullName;
+
+    /**
+     * 状态
+     */
+    private String status;
+
+    /**
+     * 路径
+     */
+    private String path;
+
+    /**
+     * 所属区域
+     */
+    private String area;
+
+    /**
+     * 详细地址
+     */
+    private String address;
+
+    /**
+     * 排序字段
+     */
+    private Integer companyOrder;
+
+    /**
+     * 子机构
+     */
+    private List<CompanyDTO> children;
 }

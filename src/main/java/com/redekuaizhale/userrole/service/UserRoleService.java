@@ -55,8 +55,8 @@ public class UserRoleService extends BaseService<UserRoleEntity> {
      */
     public String add(RequestUserRoleDTO dto) {
         UserRoleEntity entity = new UserRoleEntity();
-        UserEntity userEntity = userService.findById(dto.getUserEntity().getId());
-        RoleEntity roleEntity = roleService.findById(dto.getRoleEntity().getId());
+        UserEntity userEntity = userService.findById(dto.getUserId());
+        RoleEntity roleEntity = roleService.findById(dto.getRoleId());
         BeanCopyUtils.DTOToEntity(dto, entity);
         entity.setRoleEntity(roleEntity);
         entity.setUserEntity(userEntity);
@@ -70,8 +70,8 @@ public class UserRoleService extends BaseService<UserRoleEntity> {
      */
     public void deleteByUserIdAndRoleId(RequestUserRoleDTO dto) {
         Map<String, Object> map = new HashMap<>(2);
-        map.put("userEntity.id", dto.getUserEntity().getId());
-        map.put("roleEntity.id",dto.getRoleEntity().getId());
+        map.put("userEntity.id", dto.getUserId());
+        map.put("roleEntity.id",dto.getRoleId());
         UserRoleEntity userRoleEntity = findByProperties(map);
         deleteById(userRoleEntity.getId());
     }

@@ -84,7 +84,7 @@ public abstract class BaseService<T extends BaseEntity> {
         UserEntity user = UserThreadLocalUtils.get();
         Date date = new Date();
         entity.setCreateDate(date);
-        entity.setDelFlag(BaseEntityConstant.ENABLE.getKey());
+        entity.setDelFlag(BaseEntityConstant.ENABLE.getValue());
         entity.setCreateUserId(user.getId());
         entity.setCreateDate(new Date());
         entity.setUpdateDate(entity.getCreateDate());
@@ -114,7 +114,7 @@ public abstract class BaseService<T extends BaseEntity> {
     public void deleteById(String id) {
         UserEntity user = UserThreadLocalUtils.get();
         T t = findById(id);
-        t.setDelFlag(BaseEntityConstant.DELETE.getKey());
+        t.setDelFlag(BaseEntityConstant.DELETE.getValue());
         t.setUpdateDate(new Date());
         t.setUpdateUserId(user.getId());
         baseRepository.save(t);
@@ -129,7 +129,9 @@ public abstract class BaseService<T extends BaseEntity> {
         if (CollectionUtils.isEmpty(list)) {
             return;
         }
-        list.forEach(t -> deleteById(t.getId()));
+        for (T t : list) {
+            deleteById(t.getId());
+        }
     }
 
 
@@ -139,7 +141,7 @@ public abstract class BaseService<T extends BaseEntity> {
      * @return
      */
     public List<T> findAll() {
-        return baseRepository.findAllByDelFlag(BaseEntityConstant.ENABLE.getKey());
+        return baseRepository.findAllByDelFlag(BaseEntityConstant.ENABLE.getValue());
     }
 
     /**
@@ -153,7 +155,7 @@ public abstract class BaseService<T extends BaseEntity> {
     public T findByProperty(String field, String value, OrderParam... orderParams) {
         Map<String, Object> fieldMap = new HashMap<>();
         fieldMap.put(field, value);
-        fieldMap.put("delFlag", BaseEntityConstant.ENABLE.getKey());
+        fieldMap.put("delFlag", BaseEntityConstant.ENABLE.getValue());
         List<T> list = findAllByProperties(fieldMap, orderParams);
         return CollectionUtils.isEmpty(list) ? null : list.get(0);
     }
@@ -168,7 +170,7 @@ public abstract class BaseService<T extends BaseEntity> {
      */
     public List<T> findAllByProperty(String field, String value, OrderParam... orderParams) {
         Map<String, Object> fieldMap = new HashMap<>(2);
-        fieldMap.put("delFlag", BaseEntityConstant.ENABLE.getKey());
+        fieldMap.put("delFlag", BaseEntityConstant.ENABLE.getValue());
         fieldMap.put(field, value);
         List<T> list = findAllByProperties(fieldMap, orderParams);
         return CollectionUtils.isEmpty(list) ? null : list;
@@ -184,7 +186,7 @@ public abstract class BaseService<T extends BaseEntity> {
     public T findByProperties(Map<String, Object> properties, OrderParam... orderParams) {
         RequestPage requestPage = new RequestPage();
         requestPage.setTotal(Integer.MAX_VALUE);
-        properties.put("delFlag", BaseEntityConstant.ENABLE.getKey());
+        properties.put("delFlag", BaseEntityConstant.ENABLE.getValue());
 
         List<QueryParam> queryParams = QueryParam.newQueryParams(properties);
 
@@ -216,7 +218,7 @@ public abstract class BaseService<T extends BaseEntity> {
     public List<T> findAllByProperties(Map<String, Object> properties, OrderParam... orderParams) {
         RequestPage requestPage = new RequestPage();
         requestPage.setTotal(Integer.MAX_VALUE);
-        properties.put("delFlag", BaseEntityConstant.ENABLE.getKey());
+        properties.put("delFlag", BaseEntityConstant.ENABLE.getValue());
         List<QueryParam> queryParams = QueryParam.newQueryParams(properties);
         if (CollectionUtils.isEmpty(requestPage.getQueryParamList())) {
             requestPage.setQueryParamList(queryParams);
@@ -256,7 +258,7 @@ public abstract class BaseService<T extends BaseEntity> {
 
     public void addQueryEnableFlag(RequestPage requestPage, List<String> attributes) {
         attributes.forEach(item -> {
-            requestPage.getQueryParamList().add(QueryParam.newQueryParam(item + ".enabled", "=", BaseEntityConstant.ENABLE.getKey()));
+            requestPage.getQueryParamList().add(QueryParam.newQueryParam(item + ".enabled", "=", BaseEntityConstant.ENABLE.getValue()));
         });
     }
 
@@ -283,7 +285,7 @@ public abstract class BaseService<T extends BaseEntity> {
     }
 
     String createHql(List<QueryParam> queryParams) {
-        StringBuilder hql = new StringBuilder(" from " + this.clazz.getName() + " t where t.delFlag = " + BaseEntityConstant.ENABLE.getKey());
+        StringBuilder hql = new StringBuilder(" from " + this.clazz.getName() + " t where t.delFlag = " + BaseEntityConstant.ENABLE.getValue());
         return createHqldetail(queryParams, hql);
     }
 
