@@ -81,11 +81,11 @@ public abstract class BaseService<T extends BaseEntity> {
      * @return
      */
     public T save(T entity) {
-        UserEntity user = UserThreadLocalUtils.get();
+        //UserEntity user = UserThreadLocalUtils.get();
         Date date = new Date();
         entity.setCreateDate(date);
         entity.setDelFlag(BaseEntityConstant.ENABLE.getValue());
-        entity.setCreateUserId(user.getId());
+        entity.setCreateUserId("4028859a6dc82cbe016dc82ccc280000");
         entity.setCreateDate(new Date());
         entity.setUpdateDate(entity.getCreateDate());
         entity.setUpdateUserId(entity.getCreateUserId());
@@ -260,6 +260,14 @@ public abstract class BaseService<T extends BaseEntity> {
         attributes.forEach(item -> {
             requestPage.getQueryParamList().add(QueryParam.newQueryParam(item + ".enabled", "=", BaseEntityConstant.ENABLE.getValue()));
         });
+    }
+
+    /**
+     * 获取当前登录用户
+     * @return
+     */
+    public UserEntity getLoginUser() {
+        return UserThreadLocalUtils.get();
     }
 
     String createOrderHql(List<OrderParam> orderParams) {

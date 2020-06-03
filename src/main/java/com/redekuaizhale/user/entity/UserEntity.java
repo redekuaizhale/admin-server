@@ -16,10 +16,11 @@
 package com.redekuaizhale.user.entity;
 
 import com.redekuaizhale.base.entity.BaseEntity;
+import com.redekuaizhale.company.entity.CompanyEntity;
+import com.redekuaizhale.dept.entity.DeptEntity;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * 用户Entity
@@ -31,6 +32,21 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "t_user")
 public class UserEntity extends BaseEntity {
+
+    /**
+     * 所属机构
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_id")
+    private CompanyEntity companyEntity;
+
+    /**
+     * 所属部门
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "dept_id")
+    private DeptEntity deptEntity;
+
 
     /**
      * 登录名
@@ -46,6 +62,11 @@ public class UserEntity extends BaseEntity {
      * 姓名
      */
     private String name;
+
+    /**
+     * 状态（可用,停用）
+     */
+    private String status;
 
     /**
      * 性别

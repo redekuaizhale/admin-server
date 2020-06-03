@@ -114,24 +114,24 @@ public class QueryParam {
         Object targetParamValue = null;
         String originalParamValue = queryParam.getFieldValue();
         String operate = queryParam.getOperate();
-        if (StringUtils.equalsIgnoreCase(paramValueClass, DirecttionConstant.STRING.getKey())) {
-            if (StringUtils.equalsIgnoreCase(operate, DirecttionConstant.LIKE.getKey())) {
+        if (StringUtils.equalsIgnoreCase(paramValueClass, DirecttionConstant.STRING.getValue())) {
+            if (StringUtils.equalsIgnoreCase(operate, DirecttionConstant.LIKE.getValue())) {
                 targetParamValue = "%" + originalParamValue + "%";
-            } else if (StringUtils.equalsIgnoreCase(operate, DirecttionConstant.STARTWITH.getKey())) {
+            } else if (StringUtils.equalsIgnoreCase(operate, DirecttionConstant.STARTWITH.getValue())) {
                 targetParamValue = originalParamValue + "%";
-            } else if (StringUtils.equalsIgnoreCase(operate, DirecttionConstant.ENDWITH.getKey())) {
+            } else if (StringUtils.equalsIgnoreCase(operate, DirecttionConstant.ENDWITH.getValue())) {
                 targetParamValue = "%" + originalParamValue;
             } else {
                 targetParamValue = originalParamValue;
             }
-        } else if (StringUtils.equalsIgnoreCase(paramValueClass, DirecttionConstant.INTEGER.getKey())) {
+        } else if (StringUtils.equalsIgnoreCase(paramValueClass, DirecttionConstant.INTEGER.getValue())) {
             targetParamValue = Integer.parseInt(originalParamValue);
-        } else if (StringUtils.equalsIgnoreCase(paramValueClass, DirecttionConstant.LONG.getKey())) {
+        } else if (StringUtils.equalsIgnoreCase(paramValueClass, DirecttionConstant.LONG.getValue())) {
             targetParamValue = Long.parseLong(originalParamValue);
-        } else if (StringUtils.equalsIgnoreCase(paramValueClass, DirecttionConstant.BOOLEAN.getKey())) {
+        } else if (StringUtils.equalsIgnoreCase(paramValueClass, DirecttionConstant.BOOLEAN.getValue())) {
             targetParamValue = Lists.newArrayList("1", "true", "True").contains(originalParamValue);
-        } else if (StringUtils.equalsIgnoreCase(paramValueClass, DirecttionConstant.DATETIME.getKey())) {
-            if (StringUtils.equalsIgnoreCase(operate, DirecttionConstant.BETWEEN.getKey())) {
+        } else if (StringUtils.equalsIgnoreCase(paramValueClass, DirecttionConstant.DATETIME.getValue())) {
+            if (StringUtils.equalsIgnoreCase(operate, DirecttionConstant.BETWEEN.getValue())) {
                 String str = originalParamValue;
                 String[] split = StringUtils.split(str, "|");
                 query.setParameter(replace + "1", DateUtils.stringToDate(split[0]));
@@ -140,8 +140,8 @@ public class QueryParam {
             } else {
                 targetParamValue = DateUtils.stringToDate(originalParamValue);
             }
-        } else if (StringUtils.equalsIgnoreCase(paramValueClass, DirecttionConstant.DATE.getKey())) {
-            if (StringUtils.equalsIgnoreCase(operate, DirecttionConstant.BETWEEN.getKey())) {
+        } else if (StringUtils.equalsIgnoreCase(paramValueClass, DirecttionConstant.DATE.getValue())) {
+            if (StringUtils.equalsIgnoreCase(operate, DirecttionConstant.BETWEEN.getValue())) {
                 String str = originalParamValue;
                 String[] split = StringUtils.split(str, "|");
                 query.setParameter(replace + "1", DateUtils.stringToDate(split[0], DateUtils.YYYY_MM_DD));
@@ -150,9 +150,9 @@ public class QueryParam {
             } else {
                 targetParamValue = DateUtils.stringToDate(originalParamValue, DateUtils.YYYY_MM_DD);
             }
-        } else if (StringUtils.equalsIgnoreCase(paramValueClass, DirecttionConstant.BIGDECIMAL.getKey())) {
+        } else if (StringUtils.equalsIgnoreCase(paramValueClass, DirecttionConstant.BIGDECIMAL.getValue())) {
             targetParamValue = new BigDecimal(originalParamValue);
-        } else if (StringUtils.equalsIgnoreCase(paramValueClass, DirecttionConstant.LIST.getKey())) {
+        } else if (StringUtils.equalsIgnoreCase(paramValueClass, DirecttionConstant.LIST.getValue())) {
             targetParamValue = (List) JSON.parse(originalParamValue);
         }
         query.setParameter(replace, targetParamValue);

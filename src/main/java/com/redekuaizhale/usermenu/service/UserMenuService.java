@@ -16,8 +16,10 @@
 package com.redekuaizhale.usermenu.service;
 
 import com.redekuaizhale.base.exception.ServiceException;
+import com.redekuaizhale.base.param.OrderParam;
 import com.redekuaizhale.base.service.BaseService;
 import com.redekuaizhale.constants.BaseEntityConstant;
+import com.redekuaizhale.constants.DirecttionConstant;
 import com.redekuaizhale.menu.constant.MenuConstant;
 import com.redekuaizhale.menu.entity.MenuEntity;
 import com.redekuaizhale.menu.service.MenuService;
@@ -63,7 +65,7 @@ public class UserMenuService extends BaseService<UserMenuEntity> {
      * @return
      */
     public List<UserMenuEntity> findByUserId(String userId) {
-        return findAllByProperty("userEntity.id",userId);
+        return findAllByProperty("userEntity.id",userId, OrderParam.newOrderParam("menuEntity.menuOrder", DirecttionConstant.ASC.getValue()));
     }
 
     /**

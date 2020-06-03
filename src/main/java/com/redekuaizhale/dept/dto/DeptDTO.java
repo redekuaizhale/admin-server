@@ -15,6 +15,7 @@
  */
 package com.redekuaizhale.dept.dto;
 
+import com.redekuaizhale.base.dto.BaseDTO;
 import com.redekuaizhale.dept.entity.DeptEntity;
 import lombok.Data;
 
@@ -24,5 +25,25 @@ import lombok.Data;
  * @company Dingxuan
  */
 @Data
-public class DeptDTO extends DeptEntity {
+public class DeptDTO extends BaseDTO {
+
+    /**
+     * 机构id
+     */
+    private String companyId;
+
+    /**
+     * 名称
+     */
+    private String name;
+
+    /**
+     * 排序字段
+     */
+    private Integer deptOrder;
+
+    /**
+     * 描述
+     */
+    private String remark;
 }

@@ -84,4 +84,9 @@ public class CompanyController {
         return Result.newSuccessResult(CRUDConstant.DELETE.getValue(), companyService.findCompanyTree());
     }
 
+    @PostMapping("findLoginUserCompanyTree.do")
+    @ApiOperation("查询当前登录人机构树")
+    public Result findLoginUserCompanyTree(@RequestBody RequestCompanyDTO request) {
+        return Result.newSuccessResult(CRUDConstant.DELETE.getValue(), companyService.findLoginUserCompanyTree());
+    }
 }

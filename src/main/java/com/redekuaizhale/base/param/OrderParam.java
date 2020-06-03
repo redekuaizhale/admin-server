@@ -45,4 +45,11 @@ public class OrderParam {
         }
         return Lists.newArrayList(orderParams);
     }
+
+    public static OrderParam newOrderParam(String property, String direction) {
+        OrderParam orderParam = new OrderParam();
+        orderParam.setProperty(property);
+        orderParam.setDirection(direction);
+        return orderParam;
+    }
 }

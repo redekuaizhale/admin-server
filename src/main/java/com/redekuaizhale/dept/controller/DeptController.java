@@ -77,4 +77,12 @@ public class DeptController {
         deptService.deleteById(request.getId());
         return Result.newSuccessResult(CRUDConstant.DELETE.getValue());
     }
+
+    @PostMapping("findByCompanyId.do")
+    @ApiOperation("根据机构查询")
+    public Result findByCompanyId(@RequestBody RequestDeptDTO request) {
+        List<DeptEntity> deptEntityList = deptService.findByCompanyId(request);
+        List<ResponseDeptDTO> responseDeptDTOList = BeanCopyUtils.entityListToDTOList(deptEntityList, ResponseDeptDTO.class);
+        return Result.newSuccessResult(CRUDConstant.DELETE.getValue(),responseDeptDTOList);
+    }
 }

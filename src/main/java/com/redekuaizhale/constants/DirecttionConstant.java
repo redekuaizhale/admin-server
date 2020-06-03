@@ -87,13 +87,13 @@ public enum DirecttionConstant {
     /**
      * 编码
      */
-    String key;
+    String value;
 
-    DirecttionConstant(String key) {
-        this.key = key;
+    DirecttionConstant(String value) {
+        this.value = value;
     }
 
-    public String getKey() {
-        return key;
+    public String getValue() {
+        return value;
     }
 }

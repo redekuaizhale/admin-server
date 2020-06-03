@@ -27,6 +27,16 @@ import lombok.Data;
 public class UserDTO extends BaseDTO {
 
     /**
+     * 机构id
+     */
+    private String companyId;
+
+    /**
+     * 部门id
+     */
+    private String deptId;
+
+    /**
      * 登录名
      */
     private String loginCode;
@@ -40,6 +50,11 @@ public class UserDTO extends BaseDTO {
      * 姓名
      */
     private String name;
+
+    /**
+     * 状态（可用,停用）
+     */
+    private String status;
 
     /**
      * 性别

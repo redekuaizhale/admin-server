@@ -15,16 +15,21 @@
  */
 package com.redekuaizhale.dept.service;
 
+import com.redekuaizhale.base.param.OrderParam;
 import com.redekuaizhale.base.service.BaseService;
 import com.redekuaizhale.company.entity.CompanyEntity;
 import com.redekuaizhale.company.service.CompanyService;
+import com.redekuaizhale.constants.DirecttionConstant;
 import com.redekuaizhale.dept.constant.DeptConstant;
 import com.redekuaizhale.dept.dto.RequestDeptDTO;
+import com.redekuaizhale.dept.dto.ResponseDeptDTO;
 import com.redekuaizhale.dept.entity.DeptEntity;
 import com.redekuaizhale.dept.repository.DeptRepository;
 import com.redekuaizhale.utils.bean.BeanCopyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author zhanghui
@@ -41,14 +46,16 @@ public class DeptService extends BaseService<DeptEntity> {
     public void setRository(DeptRepository repository) {
         super.baseRepository = repository;
     }
+
     /**
      * 新增
+     *
      * @param dto
      */
     public String add(RequestDeptDTO dto) {
         DeptEntity entity = new DeptEntity();
-        CompanyEntity companyEntity = companyService.findById(dto.getCompanyEntity().getId());
         BeanCopyUtils.DTOToEntity(dto, entity);
+        CompanyEntity companyEntity = companyService.findById(dto.getCompanyId());
         entity.setCompanyEntity(companyEntity);
         save(entity);
         return entity.getId();
@@ -56,11 +63,22 @@ public class DeptService extends BaseService<DeptEntity> {
 
     /**
      * 修改
+     *
      * @param dto
      */
     public void edit(RequestDeptDTO dto) {
         DeptEntity entity = findById(dto.getId());
-        BeanCopyUtils.DTOToEntity(dto, entity, "companyEntity");
+        BeanCopyUtils.DTOToEntity(dto, entity);
         update(entity);
+    }
+
+    /**
+     * 根据机构id查询
+     * @param dto
+     * @return
+     */
+    public List<DeptEntity> findByCompanyId(RequestDeptDTO dto) {
+        OrderParam orderParam = OrderParam.newOrderParam("deptOrder", DirecttionConstant.ASC.getValue());
+        return findAllByProperty("companyEntity.id", dto.getCompanyId(), orderParam);
     }
 }

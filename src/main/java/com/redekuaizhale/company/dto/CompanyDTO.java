@@ -18,6 +18,7 @@ package com.redekuaizhale.company.dto;
 import com.redekuaizhale.base.dto.BaseDTO;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -71,5 +72,6 @@ public class CompanyDTO extends BaseDTO {
     /**
      * 子机构
      */
-    private List<CompanyDTO> children;
+    private List<CompanyDTO> children = new ArrayList<>();
+
 }

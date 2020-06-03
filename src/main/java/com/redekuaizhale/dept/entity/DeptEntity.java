@@ -45,6 +45,11 @@ public class DeptEntity extends BaseEntity {
     private String name;
 
     /**
+     * 排序字段
+     */
+    private Integer deptOrder;
+
+    /**
      * 描述
      */
     private String remark;

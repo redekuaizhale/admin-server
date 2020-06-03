@@ -17,6 +17,7 @@ package com.redekuaizhale.menu.service;
 
 import com.redekuaizhale.base.param.OrderParam;
 import com.redekuaizhale.base.service.BaseService;
+import com.redekuaizhale.constants.DirecttionConstant;
 import com.redekuaizhale.menu.dto.RequestMenuDTO;
 import com.redekuaizhale.menu.entity.MenuEntity;
 import com.redekuaizhale.menu.repository.MenuRepository;
@@ -51,7 +52,7 @@ public class MenuService extends BaseService<MenuEntity> {
     public List<MenuEntity> findByParentId(String parentId, String order) {
         OrderParam orderParam = new OrderParam();
         orderParam.setProperty("menuOrder");
-        orderParam.setDirection(StringUtils.isEmpty(order) ? "asc" : order);
+        orderParam.setDirection(StringUtils.isEmpty(order) ? DirecttionConstant.ASC.getValue() : order);
         return findAllByProperty("parentId", parentId, orderParam);
     }
 
