@@ -36,17 +36,16 @@ public class UserEntity extends BaseEntity {
     /**
      * 所属机构
      */
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "company_id")
     private CompanyEntity companyEntity;
 
     /**
      * 所属部门
      */
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "dept_id")
     private DeptEntity deptEntity;
-
 
     /**
      * 登录名

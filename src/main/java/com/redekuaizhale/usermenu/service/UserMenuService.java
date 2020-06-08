@@ -20,7 +20,7 @@ import com.redekuaizhale.base.param.OrderParam;
 import com.redekuaizhale.base.service.BaseService;
 import com.redekuaizhale.constants.BaseEntityConstant;
 import com.redekuaizhale.constants.DirecttionConstant;
-import com.redekuaizhale.menu.constant.MenuConstant;
+import com.redekuaizhale.constants.RootConstant;
 import com.redekuaizhale.menu.entity.MenuEntity;
 import com.redekuaizhale.menu.service.MenuService;
 import com.redekuaizhale.user.entity.UserEntity;
@@ -75,7 +75,7 @@ public class UserMenuService extends BaseService<UserMenuEntity> {
      * @return
      */
     public UserMenuEntity findByMenuIdAndUserId(String userId, String menuId) {
-        Map<String, Object> map = new HashMap<>(2);
+        Map<String, Object> map = new HashMap<>(16);
         map.put("userEntity.id", userId);
         map.put("menuEntity.id", menuId);
         return findByProperties(map);
@@ -191,7 +191,7 @@ public class UserMenuService extends BaseService<UserMenuEntity> {
 
         userAllMenu.forEach(item->{
             MenuEntity menuEntity = menuService.findById(item.getMenuEntity().getId());
-            if (StringUtils.equals(menuEntity.getParentId(), MenuConstant.PARENT_MENU_FLAG.getValue())) {
+            if (StringUtils.equals(menuEntity.getParentId(), RootConstant.ROOT_ID.getValue())) {
                 userAllParentMenuList.add(menuEntity);
             }
         });

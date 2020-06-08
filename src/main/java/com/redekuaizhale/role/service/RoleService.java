@@ -37,6 +37,15 @@ public class RoleService extends BaseService<RoleEntity> {
     }
 
     /**
+     * 根据名称查询
+     * @param name
+     * @return
+     */
+    public RoleEntity findByName(String name) {
+        return findByProperty("name", name);
+    }
+
+    /**
      * 新增
      * @param dto
      */

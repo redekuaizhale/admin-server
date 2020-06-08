@@ -50,6 +50,19 @@ public class UserRoleService extends BaseService<UserRoleEntity> {
     }
 
     /**
+     * 根据用户id和角色id查询
+     * @param userId
+     * @param roleId
+     * @return
+     */
+    public UserRoleEntity findByUserIdAndRoleId(String userId, String roleId) {
+        Map<String, Object> map = new HashMap<>(16);
+        map.put("userEntity.id", userId);
+        map.put("roleEntity.id", roleId);
+        return findByProperties(map);
+    }
+
+    /**
      * 新增
      * @param dto
      */
@@ -69,7 +82,7 @@ public class UserRoleService extends BaseService<UserRoleEntity> {
      * @param dto
      */
     public void deleteByUserIdAndRoleId(RequestUserRoleDTO dto) {
-        Map<String, Object> map = new HashMap<>(2);
+        Map<String, Object> map = new HashMap<>(16);
         map.put("userEntity.id", dto.getUserId());
         map.put("roleEntity.id",dto.getRoleId());
         UserRoleEntity userRoleEntity = findByProperties(map);

@@ -15,6 +15,7 @@
  */
 package com.redekuaizhale.user.dto;
 
+import com.redekuaizhale.dept.entity.DeptEntity;
 import lombok.Data;
 
 /**
@@ -30,5 +31,11 @@ public class ResponseUserDTO extends UserDTO {
      * token
      */
     private String token;
+
+    /**
+     * 部门
+     */
+    private DeptEntity deptEntity;
+
 
 }

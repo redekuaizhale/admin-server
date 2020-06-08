@@ -169,7 +169,7 @@ public abstract class BaseService<T extends BaseEntity> {
      * @return
      */
     public List<T> findAllByProperty(String field, String value, OrderParam... orderParams) {
-        Map<String, Object> fieldMap = new HashMap<>(2);
+        Map<String, Object> fieldMap = new HashMap<>(16);
         fieldMap.put("delFlag", BaseEntityConstant.ENABLE.getValue());
         fieldMap.put(field, value);
         List<T> list = findAllByProperties(fieldMap, orderParams);

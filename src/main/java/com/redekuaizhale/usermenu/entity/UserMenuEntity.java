@@ -33,11 +33,11 @@ import javax.persistence.*;
 @Table(name = "t_user_menu")
 public class UserMenuEntity extends BaseEntity {
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "menu_id")
     private MenuEntity menuEntity;
 

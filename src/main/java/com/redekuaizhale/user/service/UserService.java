@@ -18,15 +18,23 @@ package com.redekuaizhale.user.service;
 import com.redekuaizhale.base.exception.ServiceException;
 import com.redekuaizhale.base.service.BaseService;
 import com.redekuaizhale.company.service.CompanyService;
+import com.redekuaizhale.constants.RoleConstant;
+import com.redekuaizhale.constants.StatusConstant;
 import com.redekuaizhale.dept.entity.DeptEntity;
 import com.redekuaizhale.dept.service.DeptService;
+import com.redekuaizhale.role.entity.RoleEntity;
+import com.redekuaizhale.role.service.RoleService;
 import com.redekuaizhale.user.dto.RequestLoginUserDTO;
 import com.redekuaizhale.user.dto.RequestUserDTO;
 import com.redekuaizhale.user.dto.ResponseUserDTO;
 import com.redekuaizhale.user.entity.UserEntity;
 import com.redekuaizhale.user.repository.UserRepository;
+import com.redekuaizhale.userrole.entity.UserRoleEntity;
+import com.redekuaizhale.userrole.service.UserRoleService;
 import com.redekuaizhale.utils.bean.BeanCopyUtils;
 import com.redekuaizhale.utils.redis.RedisUtils;
+import com.sun.org.apache.xpath.internal.operations.Bool;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,6 +60,12 @@ public class UserService extends BaseService<UserEntity> {
     private DeptService deptService;
 
     @Autowired
+    private RoleService roleService;
+
+    @Autowired
+    private UserRoleService userRoleService;
+
+    @Autowired
     public void setRository(UserRepository userRepository) {
         super.baseRepository = userRepository;
     }
@@ -62,12 +76,15 @@ public class UserService extends BaseService<UserEntity> {
      * @return
      */
     public ResponseUserDTO getLoginUser(RequestLoginUserDTO request) {
-        Map<String, Object> queryMap = new HashMap<>(2);
+        Map<String, Object> queryMap = new HashMap<>(16);
         queryMap.put("loginCode", request.getLoginCode());
         queryMap.put("password", request.getPassword());
         UserEntity user = findByProperties(queryMap);
         if (user == null) {
             throw new ServiceException("用户名或密码不正确!");
+        }
+        if (StringUtils.equals(user.getStatus(), StatusConstant.NO_USE.getValue())) {
+            throw new ServiceException("该账号已被停用！");
         }
         String token = UUID.randomUUID().toString();
         redisUtils.set(token, user.getId());
@@ -105,5 +122,19 @@ public class UserService extends BaseService<UserEntity> {
         entity.setDeptEntity(deptEntity);
         entity.setCompanyEntity(deptEntity.getCompanyEntity());
         update(entity);
+    }
+
+    /**
+     * 判断登录人是否是超级管理员
+     * @return
+     */
+    public Boolean checkLoginUserIsAdmin() {
+        UserEntity loginUser = getLoginUser();
+        RoleEntity roleEntity = roleService.findByName(RoleConstant.ADMIN.getValue());
+        if (roleEntity == null) {
+            return false;
+        }
+        UserRoleEntity userRoleEntity = userRoleService.findByUserIdAndRoleId(loginUser.getId(), roleEntity.getId());
+        return userRoleEntity != null;
     }
 }
