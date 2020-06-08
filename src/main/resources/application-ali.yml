@@ -15,4 +15,3 @@ spring:
     timeout: 5000
 logging:
   config: src/main/resources/log/logback-spring.xml
-

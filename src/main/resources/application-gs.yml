@@ -16,4 +16,3 @@ spring:
     password: '0000'
 logging:
   config: src/main/resources/log/logback-spring.xml
-
