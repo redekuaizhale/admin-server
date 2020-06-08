@@ -17,6 +17,9 @@ package com.redekuaizhale.user.service;
 
 import com.redekuaizhale.base.exception.ServiceException;
 import com.redekuaizhale.base.service.BaseService;
+import com.redekuaizhale.company.service.CompanyService;
+import com.redekuaizhale.dept.entity.DeptEntity;
+import com.redekuaizhale.dept.service.DeptService;
 import com.redekuaizhale.user.dto.RequestLoginUserDTO;
 import com.redekuaizhale.user.dto.RequestUserDTO;
 import com.redekuaizhale.user.dto.ResponseUserDTO;
@@ -28,6 +31,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.lang.model.type.DeclaredType;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -43,6 +47,9 @@ public class UserService extends BaseService<UserEntity> {
 
     @Autowired
     private RedisUtils redisUtils;
+
+    @Autowired
+    private DeptService deptService;
 
     @Autowired
     public void setRository(UserRepository userRepository) {
@@ -80,6 +87,9 @@ public class UserService extends BaseService<UserEntity> {
     public String add(RequestUserDTO dto) {
         UserEntity entity = new UserEntity();
         BeanCopyUtils.DTOToEntity(dto, entity);
+        DeptEntity deptEntity = deptService.findById(dto.getDeptId());
+        entity.setDeptEntity(deptEntity);
+        entity.setCompanyEntity(deptEntity.getCompanyEntity());
         save(entity);
         return entity.getId();
     }
@@ -91,6 +101,9 @@ public class UserService extends BaseService<UserEntity> {
     public void edit(RequestUserDTO dto) {
         UserEntity entity = findById(dto.getId());
         BeanCopyUtils.DTOToEntity(dto, entity);
+        DeptEntity deptEntity = deptService.findById(dto.getDeptId());
+        entity.setDeptEntity(deptEntity);
+        entity.setCompanyEntity(deptEntity.getCompanyEntity());
         update(entity);
     }
 }

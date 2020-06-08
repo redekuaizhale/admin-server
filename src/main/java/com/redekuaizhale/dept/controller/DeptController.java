@@ -83,6 +83,6 @@ public class DeptController {
     public Result findByCompanyId(@RequestBody RequestDeptDTO request) {
         List<DeptEntity> deptEntityList = deptService.findByCompanyId(request);
         List<ResponseDeptDTO> responseDeptDTOList = BeanCopyUtils.entityListToDTOList(deptEntityList, ResponseDeptDTO.class);
-        return Result.newSuccessResult(CRUDConstant.DELETE.getValue(),responseDeptDTOList);
+        return Result.newSuccessResult(CRUDConstant.QUERY.getValue(),responseDeptDTOList);
     }
 }
