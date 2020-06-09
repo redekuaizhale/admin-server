@@ -17,7 +17,6 @@ package com.redekuaizhale.user.service;
 
 import com.redekuaizhale.base.exception.ServiceException;
 import com.redekuaizhale.base.service.BaseService;
-import com.redekuaizhale.company.service.CompanyService;
 import com.redekuaizhale.constants.RoleConstant;
 import com.redekuaizhale.constants.StatusConstant;
 import com.redekuaizhale.dept.entity.DeptEntity;
@@ -33,13 +32,11 @@ import com.redekuaizhale.userrole.entity.UserRoleEntity;
 import com.redekuaizhale.userrole.service.UserRoleService;
 import com.redekuaizhale.utils.bean.BeanCopyUtils;
 import com.redekuaizhale.utils.redis.RedisUtils;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.lang.model.type.DeclaredType;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;

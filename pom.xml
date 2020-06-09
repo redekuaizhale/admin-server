@@ -24,7 +24,6 @@
         <commons.collection4.version>4.3</commons.collection4.version>
         <fastjson.version>1.2.58</fastjson.version>
         <aspectj.version>1.8.9</aspectj.version>
-
     </properties>
 
     <dependencies>
