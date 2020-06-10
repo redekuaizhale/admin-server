@@ -81,4 +81,11 @@ public class UserRoleController {
         userRoleService.deleteByUserIdAndRoleId(request);
         return Result.newSuccessResult(CRUDConstant.DELETE.getValue());
     }
+
+    @PostMapping("addUserRole.do")
+    @ApiOperation("添加用户角色")
+    public Result addUserRole(@RequestBody RequestUserRoleDTO request) {
+        String id = userRoleService.add(request);
+        return Result.newSuccessResult(CRUDConstant.ADD.getValue(),id);
+    }
 }

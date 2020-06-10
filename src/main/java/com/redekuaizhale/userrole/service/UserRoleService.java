@@ -24,10 +24,13 @@ import com.redekuaizhale.userrole.dto.RequestUserRoleDTO;
 import com.redekuaizhale.userrole.entity.UserRoleEntity;
 import com.redekuaizhale.userrole.repository.UserRoleRepository;
 import com.redekuaizhale.utils.bean.BeanCopyUtils;
+import org.graalvm.util.CollectionsUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -47,6 +50,15 @@ public class UserRoleService extends BaseService<UserRoleEntity> {
     @Autowired
     public void setRository(UserRoleRepository userRoleRepository) {
         super.baseRepository = userRoleRepository;
+    }
+
+    /**
+     * 根据用户id查询
+     * @param userId
+     * @return
+     */
+    public List<UserRoleEntity> findByUserId(String userId) {
+        return findAllByProperty("userEntity.id", userId);
     }
 
     /**
@@ -87,5 +99,21 @@ public class UserRoleService extends BaseService<UserRoleEntity> {
         map.put("roleEntity.id",dto.getRoleId());
         UserRoleEntity userRoleEntity = findByProperties(map);
         deleteById(userRoleEntity.getId());
+    }
+
+    /**
+     * 添加用户角色
+     * @param request
+     */
+    public void addUserRole(RequestUserRoleDTO request) {
+        List<UserRoleEntity> userRoleEntityList = findByUserId(request.getUserId());
+        deleteAll(userRoleEntityList);
+        List<String> hasRoleIdList = request.getHasRoleIdList();
+        if (!CollectionUtils.isEmpty(hasRoleIdList)) {
+            hasRoleIdList.forEach(item->{
+                request.setRoleId(item);
+                add(request);
+            });
+        }
     }
 }

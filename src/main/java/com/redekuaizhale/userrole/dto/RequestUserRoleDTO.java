@@ -17,6 +17,8 @@ package com.redekuaizhale.userrole.dto;
 
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @author zhanghui
  * @date 2020-05-27
@@ -24,4 +26,8 @@ import lombok.Data;
  */
 @Data
 public class RequestUserRoleDTO extends UserRoleDTO {
+    /**
+     * 角色id列表
+     */
+    private List<String> hasRoleIdList;
 }
