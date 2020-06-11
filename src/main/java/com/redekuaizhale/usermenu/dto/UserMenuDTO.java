@@ -38,6 +38,8 @@ public class UserMenuDTO extends BaseDTO {
 
     private String parentName;
 
+    private String parentId;
+
     private String redirect;
 
     private String component;

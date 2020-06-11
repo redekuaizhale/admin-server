@@ -18,6 +18,8 @@ package com.redekuaizhale.userrole.dto;
 import com.redekuaizhale.base.dto.BaseDTO;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @author zhanghui
  * @date 2020-05-27
@@ -35,4 +37,9 @@ public class UserRoleDTO extends BaseDTO {
      * 角色id
      */
     private String roleId;
+
+    /**
+     * 角色id列表
+     */
+    private List<String> roleIdList;
 }

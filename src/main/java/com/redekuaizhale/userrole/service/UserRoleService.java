@@ -24,14 +24,15 @@ import com.redekuaizhale.userrole.dto.RequestUserRoleDTO;
 import com.redekuaizhale.userrole.entity.UserRoleEntity;
 import com.redekuaizhale.userrole.repository.UserRoleRepository;
 import com.redekuaizhale.utils.bean.BeanCopyUtils;
-import org.graalvm.util.CollectionsUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author zhanghui
@@ -108,12 +109,25 @@ public class UserRoleService extends BaseService<UserRoleEntity> {
     public void addUserRole(RequestUserRoleDTO request) {
         List<UserRoleEntity> userRoleEntityList = findByUserId(request.getUserId());
         deleteAll(userRoleEntityList);
-        List<String> hasRoleIdList = request.getHasRoleIdList();
+        List<String> hasRoleIdList = request.getRoleIdList();
         if (!CollectionUtils.isEmpty(hasRoleIdList)) {
             hasRoleIdList.forEach(item->{
                 request.setRoleId(item);
                 add(request);
             });
         }
+    }
+
+    /**
+     * 根据用户查询已有角色id
+     * @param request
+     * @return
+     */
+    public List<String> findRoleIdsByUserId(RequestUserRoleDTO request) {
+        List<UserRoleEntity> userRoleEntityList = findByUserId(request.getUserId());
+        if (CollectionUtils.isEmpty(userRoleEntityList)) {
+            return new ArrayList<>();
+        }
+        return userRoleEntityList.stream().map(item -> item.getRoleEntity().getId()).collect(Collectors.toList());
     }
 }

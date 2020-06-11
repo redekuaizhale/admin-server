@@ -19,10 +19,6 @@ import com.redekuaizhale.base.request.RequestPage;
 import com.redekuaizhale.base.response.ResponsePage;
 import com.redekuaizhale.base.response.Result;
 import com.redekuaizhale.constants.CRUDConstant;
-import com.redekuaizhale.dept.dto.RequestDeptDTO;
-import com.redekuaizhale.dept.dto.ResponseDeptDTO;
-import com.redekuaizhale.dept.entity.DeptEntity;
-import com.redekuaizhale.dept.service.DeptService;
 import com.redekuaizhale.userrole.dto.RequestUserRoleDTO;
 import com.redekuaizhale.userrole.dto.ResponseUserRoleDTO;
 import com.redekuaizhale.userrole.entity.UserRoleEntity;
@@ -85,7 +81,13 @@ public class UserRoleController {
     @PostMapping("addUserRole.do")
     @ApiOperation("添加用户角色")
     public Result addUserRole(@RequestBody RequestUserRoleDTO request) {
-        String id = userRoleService.add(request);
-        return Result.newSuccessResult(CRUDConstant.ADD.getValue(),id);
+        userRoleService.addUserRole(request);
+        return Result.newSuccessResult(CRUDConstant.ADD.getValue());
+    }
+
+    @PostMapping("findHasRoleIds.do")
+    @ApiOperation("添加用户角色")
+    public Result findHasRoleIds(@RequestBody RequestUserRoleDTO request) {
+        return Result.newSuccessResult(CRUDConstant.QUERY.getValue(), userRoleService.findRoleIdsByUserId(request));
     }
 }
