@@ -43,7 +43,7 @@ public class BeanCopyUtils {
      */
     public static <F, T> List<T> entityListToDTOList(List<F> fromList, Class<T> tClass) {
         if (CollectionUtils.isEmpty(fromList)) {
-            return null;
+            return new ArrayList<>();
         }
         List<T> tList = new ArrayList<>();
         for (F f : fromList) {
