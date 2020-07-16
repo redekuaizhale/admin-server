@@ -1,18 +1,19 @@
 package com.redekuaizhale.utils.redis;
 
+import cn.hutool.core.date.DateUtil;
 import com.redekuaizhale.AdminServerApplicationTests;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Date;
 
 public class RedisUtilsTest extends AdminServerApplicationTests {
 
-    @Autowired
-    private RedisUtils redisUtils;
-
 
     @Test
-    public void test11() {
-        redisUtils.set("13123", "3213123");
+    public void test() {
+        Date current = DateUtil.date();
+
+        String format = DateUtil.format(current, "");
     }
 
 }

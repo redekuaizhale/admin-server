@@ -29,10 +29,14 @@ import com.redekuaizhale.utils.bean.BeanCopyUtils;
 import com.redekuaizhale.utils.threadlocal.UserThreadLocalUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -100,5 +104,14 @@ public class UserController {
     public Result delete(@RequestBody RequestUserDTO request) {
         userService.deleteById(request.getId());
         return Result.newSuccessResult(CRUDConstant.DELETE.getValue());
+    }
+
+    public static void main(String[] args) throws ParseException {
+        Date date = DateUtils.parseDate("2019-02-01", "yyyy-MM-dd");
+        System.out.println(date);
+
+
+        String format = DateFormatUtils.format(date, "yyyy-MM-dd");
+        System.out.println(format);
     }
 }

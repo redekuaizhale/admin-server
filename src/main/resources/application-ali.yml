@@ -5,7 +5,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://47.105.46.132:3306/admin?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
     username: root
-    password: '123456'
+    password: '1234'
   jpa:
     show-sql: false
   redis:
@@ -13,5 +13,6 @@ spring:
     host: 47.105.46.132
     port: 6379
     timeout: 5000
+    password: '1234'
 logging:
   config: src/main/resources/log/logback-spring.xml

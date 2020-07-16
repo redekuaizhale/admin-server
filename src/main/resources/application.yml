@@ -3,14 +3,14 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.1.114:3306/admin?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://192.168.5.148:3306/admin?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
     username: root
-    password: '1234'
+    password: '0000'
   jpa:
     show-sql: false
   redis:
     database: 0
-    host: 192.168.1.114
+    host: 192.168.5.148
     port: 6379
     timeout: 5000
     password: '0000'
