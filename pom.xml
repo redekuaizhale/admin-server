@@ -8,7 +8,7 @@
         <version>2.1.5.RELEASE</version>
         <relativePath/>
     </parent>
-    <groupId>com.redekuaizhale</groupId>
+    <groupId>com.zh</groupId>
     <artifactId>admin-server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
