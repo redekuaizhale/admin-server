@@ -15,8 +15,12 @@
  */
 package com.zh.userrole.dto;
 
+import com.zh.userrole.entity.UserRoleEntity;
+import com.zh.utils.bean.CopyBeanUtil;
 import lombok.Data;
-import lombok.ToString;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author zhanghui
@@ -25,4 +29,22 @@ import lombok.ToString;
  */
 @Data
 public class ResponseUserRoleDTO extends UserRoleDTO {
+
+    public static ResponseUserRoleDTO toDTO(UserRoleEntity entity) {
+        ResponseUserRoleDTO dto = new ResponseUserRoleDTO();
+        CopyBeanUtil.entityToDTO(entity,dto);
+        if (entity.getUserEntity() != null) {
+            dto.setUserId(entity.getUserEntity().getId());
+        }
+        if (entity.getRoleEntity() != null) {
+            dto.setRoleId(entity.getRoleEntity().getId());
+        }
+        return dto;
+    }
+
+    public static List<ResponseUserRoleDTO> toDTOList(List<UserRoleEntity> entityList) {
+        List<ResponseUserRoleDTO> dtoList = new ArrayList<>();
+        entityList.forEach(entity -> dtoList.add(toDTO(entity)));
+        return dtoList;
+    }
 }

@@ -24,8 +24,8 @@ import com.zh.user.dto.RequestUserDTO;
 import com.zh.user.dto.ResponseUserDTO;
 import com.zh.user.entity.UserEntity;
 import com.zh.user.service.UserService;
+import com.zh.usermenu.dto.ResponseUserMenuDTO;
 import com.zh.usermenu.service.UserMenuService;
-import com.zh.utils.bean.BeanCopyUtils;
 import com.zh.utils.threadlocal.UserThreadLocalUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -54,14 +54,16 @@ public class UserController {
     @PostMapping("login.do")
     @ApiOperation("登录")
     public Result login(@RequestBody @Validated RequestLoginUserDTO request) {
-        return Result.newSuccessResult("登录成功！", userService.getLoginUser(request));
+        ResponseUserDTO resultData = userService.getLoginUser(request);
+        return Result.newSuccessResult("登录成功！", resultData);
     }
 
     @PostMapping("userMenus.do")
     @ApiOperation("获取用户所有菜单")
     public Result userMenus() {
         UserEntity currentUser = UserThreadLocalUtils.get();
-        return Result.newSuccessResult("获取用户菜单成功！", userMenuService.getAllMenuByUserId(currentUser.getId()));
+        List<ResponseUserMenuDTO> resultData = userMenuService.getAllMenuByUserId(currentUser.getId());
+        return Result.newSuccessResult("获取用户菜单成功！", resultData);
     }
 
     @GetMapping("userMenuPermission.do")
@@ -76,8 +78,7 @@ public class UserController {
     public Result query(@RequestBody RequestPage requestPage) {
         ResponsePage result = userService.query(requestPage);
         List<UserEntity> resultList = (List<UserEntity>) result.getResultList();
-        List<ResponseUserDTO> list = BeanCopyUtils.entityListToDTOList(resultList, ResponseUserDTO.class);
-        result.setResultList(list);
+        result.setResultList(ResponseUserDTO.toDTOList(resultList));
         return Result.newSuccessResult(CRUDConstant.QUERY.getValue(), result);
     }
 

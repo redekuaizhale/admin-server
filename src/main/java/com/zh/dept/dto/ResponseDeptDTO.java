@@ -15,7 +15,12 @@
  */
 package com.zh.dept.dto;
 
+import com.zh.dept.entity.DeptEntity;
+import com.zh.utils.bean.CopyBeanUtil;
 import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author zhanghui
@@ -24,4 +29,20 @@ import lombok.Data;
  */
 @Data
 public class ResponseDeptDTO extends DeptDTO {
+
+    public static ResponseDeptDTO toDTO(DeptEntity entity) {
+        ResponseDeptDTO dto = new ResponseDeptDTO();
+        CopyBeanUtil.entityToDTO(entity,dto);
+        if (entity.getCompanyEntity() != null) {
+            dto.setCompanyId(entity.getCompanyEntity().getId());
+            dto.setCompanyName(entity.getCompanyEntity().getName());
+        }
+        return dto;
+    }
+
+    public static List<ResponseDeptDTO> toDTOList(List<DeptEntity> entityList) {
+        List<ResponseDeptDTO> dtoList = new ArrayList<>();
+        entityList.forEach(entity -> dtoList.add(toDTO(entity)));
+        return dtoList;
+    }
 }

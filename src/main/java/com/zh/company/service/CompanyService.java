@@ -19,12 +19,14 @@ import com.zh.base.param.OrderParam;
 import com.zh.base.service.BaseService;
 import com.zh.company.dto.CompanyDTO;
 import com.zh.company.dto.RequestCompanyDTO;
+import com.zh.company.dto.ResponseCompanyDTO;
 import com.zh.company.entity.CompanyEntity;
 import com.zh.company.repository.CompanyRepository;
 import com.zh.constants.BaseEntityConstant;
 import com.zh.constants.DirecttionConstant;
 import com.zh.user.entity.UserEntity;
-import com.zh.utils.bean.BeanCopyUtils;
+import com.zh.utils.bean.CopyBeanUtil;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,7 +47,6 @@ public class CompanyService extends BaseService<CompanyEntity> {
         super.baseRepository = repository;
     }
 
-
     public Boolean loginUserIsHeadCompany() {
         UserEntity loginUser = getLoginUser();
         return false;
@@ -56,7 +57,8 @@ public class CompanyService extends BaseService<CompanyEntity> {
     }
 
     public List<CompanyEntity> findAllByParentId(String parentId) {
-        return findAllByProperty("parentId", parentId, OrderParam.newOrderParam("parentId", DirecttionConstant.ASC.getValue()));
+        OrderParam orderParam = OrderParam.newOrderParam("parentId", DirecttionConstant.ASC.getValue());
+        return findAllByProperty("parentId", parentId, orderParam);
     }
 
     /**
@@ -66,7 +68,7 @@ public class CompanyService extends BaseService<CompanyEntity> {
      */
     public String add(RequestCompanyDTO reqeust) {
         CompanyEntity entity = new CompanyEntity();
-        BeanCopyUtils.DTOToEntity(reqeust, entity);
+        CopyBeanUtil.DTOToEntity(reqeust, entity);
         save(entity);
         String path;
         if (StringUtils.equals(BaseEntityConstant.PARENT.getValue(), reqeust.getParentId())) {
@@ -86,7 +88,7 @@ public class CompanyService extends BaseService<CompanyEntity> {
      */
     public void edit(RequestCompanyDTO request) {
         CompanyEntity entity = findById(request.getId());
-        BeanCopyUtils.DTOToEntity(request, entity);
+        CopyBeanUtil.DTOToEntity(request, entity);
         update(entity);
     }
 
@@ -97,9 +99,9 @@ public class CompanyService extends BaseService<CompanyEntity> {
      */
     public CompanyDTO findCompanyTree() {
         CompanyEntity parent = findByParentId(BaseEntityConstant.PARENT.getValue());
-        CompanyDTO dto = BeanCopyUtils.entityToDTO(parent, CompanyDTO.class);
+        CompanyDTO dto = CopyBeanUtil.entityToDTO(parent, CompanyDTO.class);
         List<CompanyEntity> companyEntityList = findAllByParentId(parent.getId());
-        List<CompanyDTO> childList = BeanCopyUtils.entityListToDTOList(companyEntityList, CompanyDTO.class);
+        List<CompanyDTO> childList = CopyBeanUtil.entityListToDTOList(companyEntityList, CompanyDTO.class);
         dto.setChildren(childList);
         return dto;
     }
@@ -112,12 +114,11 @@ public class CompanyService extends BaseService<CompanyEntity> {
     public List<CompanyDTO> findLoginUserCompanyTree() {
         List<CompanyDTO> list = new ArrayList<>();
         CompanyEntity parent = findByParentId(BaseEntityConstant.PARENT.getValue());
-        CompanyDTO dto = BeanCopyUtils.entityToDTO(parent, CompanyDTO.class);
+        CompanyDTO dto = CopyBeanUtil.entityToDTO(parent, CompanyDTO.class);
         List<CompanyEntity> companyEntityList = findAllByParentId(parent.getId());
-        List<CompanyDTO> childList = BeanCopyUtils.entityListToDTOList(companyEntityList, CompanyDTO.class);
+        List<CompanyDTO> childList = CopyBeanUtil.entityListToDTOList(companyEntityList, CompanyDTO.class);
         dto.setChildren(childList);
         list.add(dto);
         return list;
     }
-
 }

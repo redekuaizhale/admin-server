@@ -23,7 +23,7 @@ import com.zh.userrole.dto.RequestUserRoleDTO;
 import com.zh.userrole.dto.ResponseUserRoleDTO;
 import com.zh.userrole.entity.UserRoleEntity;
 import com.zh.userrole.service.UserRoleService;
-import com.zh.utils.bean.BeanCopyUtils;
+import com.zh.utils.bean.CopyBeanUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +52,7 @@ public class UserRoleController {
     public Result query(@RequestBody RequestPage requestPage) {
         ResponsePage result = userRoleService.query(requestPage);
         List<UserRoleEntity> resultList = (List<UserRoleEntity>) result.getResultList();
-        List<ResponseUserRoleDTO> list = BeanCopyUtils.entityListToDTOList(resultList, ResponseUserRoleDTO.class);
+        List<ResponseUserRoleDTO> list = CopyBeanUtil.entityListToDTOList(resultList, ResponseUserRoleDTO.class);
         result.setResultList(list);
         return Result.newSuccessResult(CRUDConstant.QUERY.getValue(), result);
     }

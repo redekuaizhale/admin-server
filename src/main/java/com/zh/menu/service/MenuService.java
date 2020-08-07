@@ -21,7 +21,7 @@ import com.zh.constants.DirecttionConstant;
 import com.zh.menu.dto.RequestMenuDTO;
 import com.zh.menu.entity.MenuEntity;
 import com.zh.menu.repository.MenuRepository;
-import com.zh.utils.bean.BeanCopyUtils;
+import com.zh.utils.bean.CopyBeanUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,7 +35,7 @@ import java.util.List;
  * @company Dingxuan
  */
 @Service
-public class MenuService extends BaseService<MenuEntity> {
+public class MenuService extends BaseService<MenuEntity>{
 
     @Autowired
     public void setRository(MenuRepository menuRepository) {
@@ -79,7 +79,7 @@ public class MenuService extends BaseService<MenuEntity> {
      */
     public String add(RequestMenuDTO dto) {
         MenuEntity entity = new MenuEntity();
-        BeanCopyUtils.DTOToEntity(dto, entity);
+        CopyBeanUtil.DTOToEntity(dto, entity);
         save(entity);
         return entity.getId();
     }
@@ -90,7 +90,7 @@ public class MenuService extends BaseService<MenuEntity> {
      */
     public void edit(RequestMenuDTO dto) {
         MenuEntity entity = findById(dto.getId());
-        BeanCopyUtils.DTOToEntity(dto, entity);
+        CopyBeanUtil.DTOToEntity(dto, entity);
         update(entity);
     }
 }

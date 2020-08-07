@@ -30,7 +30,7 @@ import com.zh.user.entity.UserEntity;
 import com.zh.user.repository.UserRepository;
 import com.zh.userrole.entity.UserRoleEntity;
 import com.zh.userrole.service.UserRoleService;
-import com.zh.utils.bean.BeanCopyUtils;
+import com.zh.utils.bean.CopyBeanUtil;
 import com.zh.utils.redis.RedisUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -100,7 +100,7 @@ public class UserService extends BaseService<UserEntity> {
      */
     public String add(RequestUserDTO dto) {
         UserEntity entity = new UserEntity();
-        BeanCopyUtils.DTOToEntity(dto, entity);
+        CopyBeanUtil.DTOToEntity(dto, entity);
         DeptEntity deptEntity = deptService.findById(dto.getDeptId());
         entity.setDeptEntity(deptEntity);
         entity.setCompanyEntity(deptEntity.getCompanyEntity());
@@ -114,7 +114,7 @@ public class UserService extends BaseService<UserEntity> {
      */
     public void edit(RequestUserDTO dto) {
         UserEntity entity = findById(dto.getId());
-        BeanCopyUtils.DTOToEntity(dto, entity);
+        CopyBeanUtil.DTOToEntity(dto, entity);
         DeptEntity deptEntity = deptService.findById(dto.getDeptId());
         entity.setDeptEntity(deptEntity);
         entity.setCompanyEntity(deptEntity.getCompanyEntity());

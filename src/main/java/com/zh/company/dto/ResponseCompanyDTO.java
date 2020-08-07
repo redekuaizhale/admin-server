@@ -15,7 +15,12 @@
  */
 package com.zh.company.dto;
 
+import com.zh.company.entity.CompanyEntity;
+import com.zh.utils.bean.CopyBeanUtil;
 import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author zhanghui
@@ -24,4 +29,16 @@ import lombok.Data;
  */
 @Data
 public class ResponseCompanyDTO extends CompanyDTO {
+
+    public static ResponseCompanyDTO toDTO(CompanyEntity entity) {
+        ResponseCompanyDTO dto = new ResponseCompanyDTO();
+        CopyBeanUtil.entityToDTO(entity, dto);
+        return dto;
+    }
+
+    public static List<ResponseCompanyDTO> toDTOList(List<CompanyEntity> entityList) {
+        List<ResponseCompanyDTO> dtoList = new ArrayList<>();
+        entityList.forEach(entity -> dtoList.add(toDTO(entity)));
+        return dtoList;
+    }
 }

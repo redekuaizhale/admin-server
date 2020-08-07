@@ -23,7 +23,6 @@ import com.zh.menu.dto.RequestMenuDTO;
 import com.zh.menu.dto.ResponseMenuDTO;
 import com.zh.menu.entity.MenuEntity;
 import com.zh.menu.service.MenuService;
-import com.zh.utils.bean.BeanCopyUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,8 +51,7 @@ public class MenuController {
     public Result query(@RequestBody RequestPage requestPage) {
         ResponsePage result = menuService.query(requestPage);
         List<MenuEntity> resultList = (List<MenuEntity>) result.getResultList();
-        List<ResponseMenuDTO> list = BeanCopyUtils.entityListToDTOList(resultList, ResponseMenuDTO.class);
-        result.setResultList(list);
+        result.setResultList(ResponseMenuDTO.toDTOList(resultList));
         return Result.newSuccessResult(CRUDConstant.QUERY.getValue(), result);
     }
 

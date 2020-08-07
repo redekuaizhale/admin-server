@@ -23,7 +23,6 @@ import com.zh.dept.dto.RequestDeptDTO;
 import com.zh.dept.dto.ResponseDeptDTO;
 import com.zh.dept.entity.DeptEntity;
 import com.zh.dept.service.DeptService;
-import com.zh.utils.bean.BeanCopyUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,8 +51,7 @@ public class DeptController {
     public Result query(@RequestBody RequestPage requestPage) {
         ResponsePage result = deptService.query(requestPage);
         List<DeptEntity> resultList = (List<DeptEntity>) result.getResultList();
-        List<ResponseDeptDTO> list = BeanCopyUtils.entityListToDTOList(resultList, ResponseDeptDTO.class);
-        result.setResultList(list);
+        result.setResultList(ResponseDeptDTO.toDTOList(resultList));
         return Result.newSuccessResult(CRUDConstant.QUERY.getValue(), result);
     }
 
@@ -81,8 +79,7 @@ public class DeptController {
     @PostMapping("findByCompanyId.do")
     @ApiOperation("根据机构查询")
     public Result findByCompanyId(@RequestBody RequestDeptDTO request) {
-        List<DeptEntity> deptEntityList = deptService.findByCompanyId(request);
-        List<ResponseDeptDTO> responseDeptDTOList = BeanCopyUtils.entityListToDTOList(deptEntityList, ResponseDeptDTO.class);
-        return Result.newSuccessResult(CRUDConstant.QUERY.getValue(),responseDeptDTOList);
+        List<DeptEntity> entityList = deptService.findByCompanyId(request);
+        return Result.newSuccessResult(CRUDConstant.QUERY.getValue(),ResponseDeptDTO.toDTOList(entityList));
     }
 }

@@ -15,7 +15,12 @@
  */
 package com.zh.usermenu.dto;
 
+import com.zh.usermenu.entity.UserMenuEntity;
+import com.zh.utils.bean.CopyBeanUtil;
 import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 用户菜单响应DTO
@@ -24,6 +29,17 @@ import lombok.Data;
  * @company Dingxuan
  */
 @Data
-public class ResponseUserAllMenuDTO extends UserMenuDTO {
+public class ResponseUserMenuDTO extends UserMenuDTO {
 
+    public static ResponseUserMenuDTO toDTO(UserMenuEntity entity) {
+        ResponseUserMenuDTO dto = new ResponseUserMenuDTO();
+        CopyBeanUtil.entityToDTO(entity,dto);
+        return dto;
+    }
+
+    public static List<ResponseUserMenuDTO> toDTOList(List<UserMenuEntity> entityList) {
+        List<ResponseUserMenuDTO> dtoList = new ArrayList<>();
+        entityList.forEach(entity -> dtoList.add(toDTO(entity)));
+        return dtoList;
+    }
 }

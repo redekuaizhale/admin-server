@@ -32,6 +32,11 @@ public class DeptDTO extends BaseDTO {
     private String companyId;
 
     /**
+     * 机构简称
+     */
+    private String companyName;
+
+    /**
      * 名称
      */
     private String name;

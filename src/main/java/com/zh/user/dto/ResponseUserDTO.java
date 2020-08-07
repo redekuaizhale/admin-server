@@ -15,33 +15,45 @@
  */
 package com.zh.user.dto;
 
-import com.zh.dept.entity.DeptEntity;
 import com.zh.user.entity.UserEntity;
+import com.zh.utils.bean.CopyBeanUtil;
 import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 用户响应DTO
+ *
  * @author zhanghui
  * @date 2019-06-24
  * @company Dingxuan
  */
 @Data
-public class ResponseUserDTO extends UserDTO {
+public class ResponseUserDTO extends UserDTO{
 
     /**
      * token
      */
     private String token;
 
-    /**
-     * 部门
-     */
-    private DeptEntity deptEntity;
-
-
-    public static ResponseUserDTO newDTO(UserEntity entity) {
+    public static ResponseUserDTO toDTO(UserEntity entity) {
         ResponseUserDTO dto = new ResponseUserDTO();
+        CopyBeanUtil.entityToDTO(entity, dto);
+        if (entity.getCompanyEntity() != null) {
+            dto.setCompanyId(entity.getCompanyEntity().getId());
+            dto.setCompanyName(entity.getCompanyEntity().getName());
+        }
+        if (entity.getDeptEntity() != null) {
+            dto.setDeptId(entity.getDeptEntity().getId());
+            dto.setDeptName(entity.getDeptEntity().getName());
+        }
         return dto;
     }
 
+    public static List<ResponseUserDTO> toDTOList(List<UserEntity> entityList) {
+        List<ResponseUserDTO> dtoList = new ArrayList<>();
+        entityList.forEach(entity -> dtoList.add(toDTO(entity)));
+        return dtoList;
+    }
 }

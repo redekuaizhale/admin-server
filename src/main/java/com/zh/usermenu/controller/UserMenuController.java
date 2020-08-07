@@ -17,8 +17,8 @@ package com.zh.usermenu.controller;
 
 import com.zh.base.response.Result;
 import com.zh.constants.CRUDConstant;
-import com.zh.usermenu.dto.RequestUserAllMenuDTO;
-import com.zh.usermenu.dto.ResponseUserAllMenuDTO;
+import com.zh.usermenu.dto.RequestUserMenuDTO;
+import com.zh.usermenu.dto.ResponseUserMenuDTO;
 import com.zh.usermenu.service.UserMenuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -45,15 +45,15 @@ public class UserMenuController {
 
     @PostMapping("userHasMenus.do")
     @ApiOperation("获取用户已有菜单")
-    public Result userHasMenus(@RequestBody RequestUserAllMenuDTO request) {
-        List<ResponseUserAllMenuDTO> allMenus = userMenuService.getAllMenus();
+    public Result userHasMenus(@RequestBody RequestUserMenuDTO request) {
+        List<ResponseUserMenuDTO> allMenus = userMenuService.getAllMenus();
         userMenuService.checkHasMenus(allMenus,request.getUserId());
         return Result.newSuccessResult(CRUDConstant.QUERY.getValue(),allMenus);
     }
 
     @PostMapping("editUserHasMenus.do")
     @ApiOperation("修改用户已有菜单")
-    public Result editUserHasMenus(@RequestBody RequestUserAllMenuDTO request) {
+    public Result editUserHasMenus(@RequestBody RequestUserMenuDTO request) {
         userMenuService.edit(request);
         return Result.newSuccessResult(CRUDConstant.UPDATE.getValue());
     }

@@ -32,19 +32,24 @@ public class UserDTO extends BaseDTO {
     private String companyId;
 
     /**
+     * 机构简称
+     */
+    private String companyName;
+
+    /**
      * 部门id
      */
     private String deptId;
 
     /**
+     * 部门名称
+     */
+    private String deptName;
+
+    /**
      * 登录名
      */
     private String loginCode;
-
-    /**
-     * 密码
-     */
-    private String password;
 
     /**
      * 姓名

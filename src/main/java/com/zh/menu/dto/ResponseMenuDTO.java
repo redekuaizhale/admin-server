@@ -15,7 +15,12 @@
  */
 package com.zh.menu.dto;
 
+import com.zh.menu.entity.MenuEntity;
+import com.zh.utils.bean.CopyBeanUtil;
 import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author zhanghui
@@ -25,5 +30,16 @@ import lombok.Data;
 @Data
 public class ResponseMenuDTO extends MenuDTO {
 
+    public static ResponseMenuDTO toDTO(MenuEntity entity) {
+        ResponseMenuDTO dto = new ResponseMenuDTO();
+        CopyBeanUtil.entityToDTO(entity, dto);
+        return dto;
+    }
+
+    public static List<ResponseMenuDTO> toDTOList(List<MenuEntity> entityList) {
+        List<ResponseMenuDTO> dtoList = new ArrayList<>();
+        entityList.forEach(entity -> dtoList.add(toDTO(entity)));
+        return dtoList;
+    }
 
 }

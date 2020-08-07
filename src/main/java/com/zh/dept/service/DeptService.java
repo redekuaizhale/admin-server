@@ -21,12 +21,15 @@ import com.zh.company.entity.CompanyEntity;
 import com.zh.company.service.CompanyService;
 import com.zh.constants.DirecttionConstant;
 import com.zh.dept.dto.RequestDeptDTO;
+import com.zh.dept.dto.ResponseDeptDTO;
 import com.zh.dept.entity.DeptEntity;
 import com.zh.dept.repository.DeptRepository;
-import com.zh.utils.bean.BeanCopyUtils;
+import com.zh.utils.bean.CopyBeanUtil;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,7 +55,7 @@ public class DeptService extends BaseService<DeptEntity> {
      */
     public String add(RequestDeptDTO dto) {
         DeptEntity entity = new DeptEntity();
-        BeanCopyUtils.DTOToEntity(dto, entity);
+        CopyBeanUtil.DTOToEntity(dto, entity);
         CompanyEntity companyEntity = companyService.findById(dto.getCompanyId());
         entity.setCompanyEntity(companyEntity);
         save(entity);
@@ -66,7 +69,7 @@ public class DeptService extends BaseService<DeptEntity> {
      */
     public void edit(RequestDeptDTO dto) {
         DeptEntity entity = findById(dto.getId());
-        BeanCopyUtils.DTOToEntity(dto, entity);
+        CopyBeanUtil.DTOToEntity(dto, entity);
         update(entity);
     }
 

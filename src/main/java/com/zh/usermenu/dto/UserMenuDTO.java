@@ -15,7 +15,7 @@
  */
 package com.zh.usermenu.dto;
 
-import com.zh.base.dto.BaseDTO;
+import com.zh.menu.dto.MenuDTO;
 import lombok.Data;
 
 import java.util.List;
@@ -26,31 +26,13 @@ import java.util.List;
  * @company Dingxuan
  */
 @Data
-public class UserMenuDTO extends BaseDTO {
+public class UserMenuDTO extends MenuDTO {
 
     private String userId;
-
-    private String title;
-
-    private String path;
-
-    private String name;
-
-    private String parentName;
-
-    private String parentId;
-
-    private String redirect;
-
-    private String component;
-
-    private Boolean hidden;
-
-    private String icon;
 
     private Boolean checked;
 
     private Boolean expand;
 
-    private List<ResponseUserAllMenuDTO> children;
+    private List<ResponseUserMenuDTO> children;
 }

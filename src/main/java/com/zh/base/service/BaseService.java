@@ -256,12 +256,6 @@ public abstract class BaseService<T extends BaseEntity> {
         return responsePage;
     }
 
-    public void addQueryEnableFlag(RequestPage requestPage, List<String> attributes) {
-        attributes.forEach(item -> {
-            requestPage.getQueryParamList().add(QueryParam.newQueryParam(item + ".enabled", "=", BaseEntityConstant.ENABLE.getValue()));
-        });
-    }
-
     /**
      * 获取当前登录用户
      * @return

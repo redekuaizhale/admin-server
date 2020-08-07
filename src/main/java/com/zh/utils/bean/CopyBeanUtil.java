@@ -30,11 +30,10 @@ import java.util.List;
  * @company Dingxuan
  */
 @Slf4j
-public class BeanCopyUtils {
+public class CopyBeanUtil {
 
     /**
      * 将entityList转换成modelList
-     *
      * @param fromList
      * @param tClass
      * @param <F>
@@ -63,20 +62,31 @@ public class BeanCopyUtils {
      */
     public static <F, T> T entityToDTO(F entity, Class<T> modelClass) {
         Object model = null;
-        if (entity == null || modelClass == null) {
-            return null;
-        }
         try {
             model = modelClass.newInstance();
-        } catch (InstantiationException e) {
+        } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
-            log.error("entityToDTO : 实例化异常", e);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            log.error("entityToDTO : 安全权限异常", e);
         }
-        BeanUtil.copyProperties(entity, model);
+        BeanUtil.copyProperties(entity, modelClass);
         return (T) model;
+    }
+
+    /**
+     * 两个对象copy
+     * @param source
+     * @param target
+     */
+    public static void copy(Object source, Object target) {
+        BeanUtil.copyProperties(source, target);
+    }
+
+    /**
+     * entity转dto
+     * @param source
+     * @param target
+     */
+    public static void entityToDTO(Object source, Object target) {
+        BeanUtil.copyProperties(source, target);
     }
 
     /**

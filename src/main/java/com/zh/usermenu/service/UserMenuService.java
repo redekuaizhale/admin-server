@@ -20,19 +20,20 @@ import com.zh.base.param.OrderParam;
 import com.zh.base.service.BaseService;
 import com.zh.constants.BaseEntityConstant;
 import com.zh.constants.DirecttionConstant;
+import com.zh.constants.MapConstant;
 import com.zh.constants.RootConstant;
+import com.zh.menu.dto.ResponseMenuDTO;
 import com.zh.menu.entity.MenuEntity;
 import com.zh.menu.service.MenuService;
 import com.zh.user.entity.UserEntity;
 import com.zh.user.service.UserService;
-import com.zh.usermenu.dto.RequestUserAllMenuDTO;
-import com.zh.usermenu.dto.ResponseUserAllMenuDTO;
+import com.zh.usermenu.dto.RequestUserMenuDTO;
+import com.zh.usermenu.dto.ResponseUserMenuDTO;
 import com.zh.usermenu.entity.UserMenuEntity;
 import com.zh.usermenu.repository.UserMenuRepository;
-import com.zh.utils.bean.BeanCopyUtils;
+import com.zh.utils.bean.CopyBeanUtil;
 import com.zh.utils.threadlocal.UserThreadLocalUtils;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +47,7 @@ import java.util.stream.Collectors;
  * @company Dingxuan
  */
 @Service
-public class UserMenuService extends BaseService<UserMenuEntity> {
+public class UserMenuService extends BaseService<UserMenuEntity>{
 
     @Autowired
     private MenuService menuService;
@@ -65,7 +66,21 @@ public class UserMenuService extends BaseService<UserMenuEntity> {
      * @return
      */
     public List<UserMenuEntity> findByUserId(String userId) {
-        return findAllByProperty("userEntity.id",userId, OrderParam.newOrderParam("menuEntity.menuOrder", DirecttionConstant.ASC.getValue()));
+        OrderParam orderParam = OrderParam.newOrderParam("menuEntity.menuOrder", DirecttionConstant.ASC.getValue());
+        return findAllByProperty("userEntity.id",userId,orderParam);
+    }
+
+    /**
+     * 根据userId和parentId查询
+     * @param userId
+     * @param parentId
+     * @return
+     */
+    public List<UserMenuEntity> findByUserIdAndParentId(String userId, String parentId) {
+        Map<String, Object> map = new HashMap<>(MapConstant.INITIAL_CAPACITY.getValue());
+        map.put("userEntity.id", userId);
+        map.put("menuEntity.parentId", parentId);
+        return findAllByProperties(map);
     }
 
     /**
@@ -75,7 +90,7 @@ public class UserMenuService extends BaseService<UserMenuEntity> {
      * @return
      */
     public UserMenuEntity findByMenuIdAndUserId(String userId, String menuId) {
-        Map<String, Object> map = new HashMap<>(16);
+        Map<String, Object> map = new HashMap<>(MapConstant.INITIAL_CAPACITY.getValue());
         map.put("userEntity.id", userId);
         map.put("menuEntity.id", menuId);
         return findByProperties(map);
@@ -94,7 +109,7 @@ public class UserMenuService extends BaseService<UserMenuEntity> {
      * 修改
      * @param request
      */
-    public void edit(RequestUserAllMenuDTO request) {
+    public void edit(RequestUserMenuDTO request) {
         String userId = request.getUserId();
         deleteByUserId(userId);
         addUserMenu(userId,request.getMenuIdList());
@@ -137,14 +152,19 @@ public class UserMenuService extends BaseService<UserMenuEntity> {
      * 获取系统所有菜单
      * @return
      */
-    public List<ResponseUserAllMenuDTO> getAllMenus() {
+    public List<ResponseUserMenuDTO> getAllMenus() {
         List<MenuEntity> allMenuList = menuService.findByParentId(BaseEntityConstant.PARENT.getValue(), null);
-        List<ResponseUserAllMenuDTO> allMenuListDTO = BeanCopyUtils.entityListToDTOList(allMenuList, ResponseUserAllMenuDTO.class);
-
+        List<ResponseUserMenuDTO> allMenuListDTO = new ArrayList<>();
+        List<ResponseMenuDTO> menuDTOList = menuService.newDTOS(allMenuList);
+        for (ResponseMenuDTO dto : menuDTOList) {
+            ResponseUserMenuDTO responseUserMenuDTO = new ResponseUserMenuDTO();
+            CopyBeanUtil.entityToDTO(dto, responseUserMenuDTO);
+            allMenuListDTO.add(responseUserMenuDTO);
+        }
         if (CollectionUtils.isEmpty(allMenuListDTO)) {
             return null;
         }
-        for (ResponseUserAllMenuDTO menu : allMenuListDTO) {
+        for (ResponseUserMenuDTO menu : allMenuListDTO) {
             menu.setChildren(getChild(menu.getId()));
         }
         return allMenuListDTO;
@@ -156,14 +176,14 @@ public class UserMenuService extends BaseService<UserMenuEntity> {
      * @param userId
      * @return
      */
-    public List<ResponseUserAllMenuDTO> checkHasMenus(List<ResponseUserAllMenuDTO> allMenuDTO,String userId) {
-        for (ResponseUserAllMenuDTO parent : allMenuDTO) {
+    public List<ResponseUserMenuDTO> checkHasMenus(List<ResponseUserMenuDTO> allMenuDTO, String userId) {
+        for (ResponseUserMenuDTO parent : allMenuDTO) {
             parent.setExpand(Boolean.TRUE);
-            List<ResponseUserAllMenuDTO> children = parent.getChildren();
+            List<ResponseUserMenuDTO> children = parent.getChildren();
             if (CollectionUtils.isEmpty(children)) {
                 continue;
             }
-            for (ResponseUserAllMenuDTO child : children) {
+            for (ResponseUserMenuDTO child : children) {
                 UserMenuEntity userMenu = findByMenuIdAndUserId(userId, child.getId());
                 if (userMenu != null) {
                     child.setChecked(Boolean.TRUE);
@@ -179,26 +199,23 @@ public class UserMenuService extends BaseService<UserMenuEntity> {
      * @param userId
      * @return
      */
-    public List<ResponseUserAllMenuDTO> getAllMenuByUserId(String userId) {
-        List<MenuEntity> userAllParentMenuList = new ArrayList<>();
-        List<UserMenuEntity> userAllMenu = findByUserId(userId);
-
+    public List<ResponseUserMenuDTO> getAllMenuByUserId(String userId) {
+        List<UserMenuEntity> userAllMenu = findByUserIdAndParentId(userId, RootConstant.ROOT_ID.getValue());
         if (CollectionUtils.isEmpty(userAllMenu)) {
             throw new ServiceException("未配置菜单权限， 请联系管理员！");
         }
-
         List<String> hasIdList = userAllMenu.stream().map(item->item.getMenuEntity().getId()).collect(Collectors.toList());
 
-        userAllMenu.forEach(item->{
-            MenuEntity menuEntity = menuService.findById(item.getMenuEntity().getId());
-            if (StringUtils.equals(menuEntity.getParentId(), RootConstant.ROOT_ID.getValue())) {
-                userAllParentMenuList.add(menuEntity);
-            }
-        });
+        List<ResponseUserMenuDTO> userAllMenuDTOList = new ArrayList<>();
 
-        List<ResponseUserAllMenuDTO> userAllMenuDTOList = BeanCopyUtils.entityListToDTOList(userAllParentMenuList, ResponseUserAllMenuDTO.class);
+        for (UserMenuEntity userMenuEntity : userAllMenu) {
+            ResponseUserMenuDTO dto = new ResponseUserMenuDTO();
+            MenuEntity menuEntity = userMenuEntity.getMenuEntity();
+            CopyBeanUtil.copy(menuEntity, dto);
+            userAllMenuDTOList.add(dto);
+        }
 
-        for (ResponseUserAllMenuDTO menu : userAllMenuDTOList) {
+        for (ResponseUserMenuDTO menu : userAllMenuDTOList) {
             menu.setChildren(getChild(menu.getId(), hasIdList.toString()));
         }
         return userAllMenuDTOList;
@@ -209,17 +226,23 @@ public class UserMenuService extends BaseService<UserMenuEntity> {
      * @param menuId
      * @return
      */
-    public List<ResponseUserAllMenuDTO> getChild(String menuId,String... hasIdList) {
-        List<ResponseUserAllMenuDTO> childList = new ArrayList<>();
+    public List<ResponseUserMenuDTO> getChild(String menuId, String... hasIdList) {
+        List<ResponseUserMenuDTO> childList = new ArrayList<>();
         List<MenuEntity> menuList = menuService.findByParentId(menuId, null);
+        List<ResponseMenuDTO> menuDTOList = new ArrayList<>();
         if(CollectionUtils.isEmpty(menuList)){
             return childList;
         }
-        if (hasIdList != null && hasIdList.length > 0) {
+       /* if (hasIdList != null && hasIdList.length > 0) {
             menuList = menuList.stream().filter(item -> Arrays.toString(hasIdList).contains(item.getId())).collect(Collectors.toList());
+        }*/
+        menuDTOList = menuService.newDTOS(menuList);
+        for (ResponseMenuDTO responseMenuDTO : menuDTOList) {
+            ResponseUserMenuDTO responseUserMenuDTO = new ResponseUserMenuDTO();
+            CopyBeanUtil.copy(responseMenuDTO, responseUserMenuDTO);
+            childList.add(responseUserMenuDTO);
         }
-        childList = BeanCopyUtils.entityListToDTOList(menuList, ResponseUserAllMenuDTO.class);
-        for (ResponseUserAllMenuDTO menuDTO : childList) {
+        for (ResponseUserMenuDTO menuDTO : childList) {
             menuDTO.setChildren(getChild(menuDTO.getId(),hasIdList));
         }
         return childList;

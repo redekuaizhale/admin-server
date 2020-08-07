@@ -50,30 +50,25 @@ public class BaseEntity implements Serializable {
     /**
      * 创建人id
      */
-    @JsonIgnore
     private String createUserId;
 
     /**
      * 创建日期
      */
-    @JsonIgnore
     private Date createDate;
 
     /**
      * 更新人id
      */
-    @JsonIgnore
     private String updateUserId;
 
     /**
      * 更新日期
      */
-    @JsonIgnore
     private Date updateDate;
 
     /**
      * 删除标识
      */
-    @JsonIgnore
     private String delFlag;
 }

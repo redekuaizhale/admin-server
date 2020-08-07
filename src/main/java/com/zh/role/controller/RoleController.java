@@ -23,7 +23,6 @@ import com.zh.role.dto.RequestRoleDTO;
 import com.zh.role.dto.ResponseRoleDTO;
 import com.zh.role.entity.RoleEntity;
 import com.zh.role.service.RoleService;
-import com.zh.utils.bean.BeanCopyUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,8 +51,7 @@ public class RoleController {
     public Result query(@RequestBody RequestPage requestPage) {
         ResponsePage result = roleService.query(requestPage);
         List<RoleEntity> resultList = (List<RoleEntity>) result.getResultList();
-        List<ResponseRoleDTO> list = BeanCopyUtils.entityListToDTOList(resultList, ResponseRoleDTO.class);
-        result.setResultList(list);
+        result.setResultList(ResponseRoleDTO.toDTOList(resultList));
         return Result.newSuccessResult(CRUDConstant.QUERY.getValue(), result);
     }
 

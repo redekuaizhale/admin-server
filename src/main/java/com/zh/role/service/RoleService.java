@@ -19,7 +19,7 @@ import com.zh.base.service.BaseService;
 import com.zh.role.dto.RequestRoleDTO;
 import com.zh.role.entity.RoleEntity;
 import com.zh.role.repository.RoleRepository;
-import com.zh.utils.bean.BeanCopyUtils;
+import com.zh.utils.bean.CopyBeanUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +29,7 @@ import org.springframework.stereotype.Service;
  * @company Dingxuan
  */
 @Service
-public class RoleService extends BaseService<RoleEntity> {
+public class RoleService extends BaseService<RoleEntity>{
 
     @Autowired
     public void setRository(RoleRepository repository) {
@@ -51,7 +51,7 @@ public class RoleService extends BaseService<RoleEntity> {
      */
     public String add(RequestRoleDTO dto) {
         RoleEntity entity = new RoleEntity();
-        BeanCopyUtils.DTOToEntity(dto, entity);
+        CopyBeanUtil.DTOToEntity(dto, entity);
         save(entity);
         return entity.getId();
     }
@@ -62,7 +62,7 @@ public class RoleService extends BaseService<RoleEntity> {
      */
     public void edit(RequestRoleDTO dto) {
         RoleEntity entity = findById(dto.getId());
-        BeanCopyUtils.DTOToEntity(dto, entity);
+        CopyBeanUtil.DTOToEntity(dto, entity);
         update(entity);
     }
 }

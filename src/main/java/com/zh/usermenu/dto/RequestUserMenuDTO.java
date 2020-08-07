@@ -27,7 +27,7 @@ import java.util.List;
  * @company Dingxuan
  */
 @Data
-public class RequestUserAllMenuDTO extends UserMenuDTO {
+public class RequestUserMenuDTO extends UserMenuDTO {
 
     private List<String> menuIdList;
 

@@ -23,7 +23,7 @@ import com.zh.user.service.UserService;
 import com.zh.userrole.dto.RequestUserRoleDTO;
 import com.zh.userrole.entity.UserRoleEntity;
 import com.zh.userrole.repository.UserRoleRepository;
-import com.zh.utils.bean.BeanCopyUtils;
+import com.zh.utils.bean.CopyBeanUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -83,7 +83,7 @@ public class UserRoleService extends BaseService<UserRoleEntity> {
         UserRoleEntity entity = new UserRoleEntity();
         UserEntity userEntity = userService.findById(dto.getUserId());
         RoleEntity roleEntity = roleService.findById(dto.getRoleId());
-        BeanCopyUtils.DTOToEntity(dto, entity);
+        CopyBeanUtil.DTOToEntity(dto, entity);
         entity.setRoleEntity(roleEntity);
         entity.setUserEntity(userEntity);
         save(entity);

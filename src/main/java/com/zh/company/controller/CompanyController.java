@@ -18,12 +18,12 @@ package com.zh.company.controller;
 import com.zh.base.request.RequestPage;
 import com.zh.base.response.ResponsePage;
 import com.zh.base.response.Result;
+import com.zh.company.dto.CompanyDTO;
 import com.zh.company.dto.RequestCompanyDTO;
 import com.zh.company.dto.ResponseCompanyDTO;
 import com.zh.company.entity.CompanyEntity;
 import com.zh.company.service.CompanyService;
 import com.zh.constants.CRUDConstant;
-import com.zh.utils.bean.BeanCopyUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,8 +52,7 @@ public class CompanyController {
     public Result query(@RequestBody RequestPage requestPage) {
         ResponsePage result = companyService.query(requestPage);
         List<CompanyEntity> resultList = (List<CompanyEntity>) result.getResultList();
-        List<ResponseCompanyDTO> list = BeanCopyUtils.entityListToDTOList(resultList, ResponseCompanyDTO.class);
-        result.setResultList(list);
+        result.setResultList(ResponseCompanyDTO.toDTOList(resultList));
         return Result.newSuccessResult(CRUDConstant.QUERY.getValue(), result);
     }
 
@@ -61,7 +60,7 @@ public class CompanyController {
     @ApiOperation("添加机构")
     public Result add(@RequestBody RequestCompanyDTO request) {
         String id = companyService.add(request);
-        return Result.newSuccessResult(CRUDConstant.ADD.getValue(),id);
+        return Result.newSuccessResult(CRUDConstant.ADD.getValue(), id);
     }
 
     @PostMapping("edit.do")
@@ -81,12 +80,14 @@ public class CompanyController {
     @PostMapping("findCompanyTree.do")
     @ApiOperation("查询机构树")
     public Result findCompanyTree(@RequestBody RequestCompanyDTO request) {
-        return Result.newSuccessResult(CRUDConstant.DELETE.getValue(), companyService.findCompanyTree());
+        CompanyDTO resultData = companyService.findCompanyTree();
+        return Result.newSuccessResult(CRUDConstant.DELETE.getValue(), resultData);
     }
 
     @PostMapping("findLoginUserCompanyTree.do")
     @ApiOperation("查询当前登录人机构树")
     public Result findLoginUserCompanyTree(@RequestBody RequestCompanyDTO request) {
-        return Result.newSuccessResult(CRUDConstant.DELETE.getValue(), companyService.findLoginUserCompanyTree());
+        List<CompanyDTO> resultData = companyService.findLoginUserCompanyTree();
+        return Result.newSuccessResult(CRUDConstant.DELETE.getValue(), resultData);
     }
 }
