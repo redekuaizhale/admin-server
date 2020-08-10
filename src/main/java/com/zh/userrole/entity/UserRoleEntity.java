@@ -36,7 +36,7 @@ public class UserRoleEntity extends BaseEntity {
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
 
-    @OneToOne()
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id")
     private RoleEntity roleEntity;
 

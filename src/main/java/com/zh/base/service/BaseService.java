@@ -22,6 +22,7 @@ import com.zh.base.repository.BaseRepository;
 import com.zh.base.request.RequestPage;
 import com.zh.base.response.ResponsePage;
 import com.zh.constants.BaseEntityConstant;
+import com.zh.constants.MapConstant;
 import com.zh.user.entity.UserEntity;
 import com.zh.utils.threadlocal.UserThreadLocalUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -169,11 +170,11 @@ public abstract class BaseService<T extends BaseEntity> {
      * @return
      */
     public List<T> findAllByProperty(String field, String value, OrderParam... orderParams) {
-        Map<String, Object> fieldMap = new HashMap<>(16);
+        Map<String, Object> fieldMap = new HashMap<>(MapConstant.INITIAL_CAPACITY.getValue());
         fieldMap.put("delFlag", BaseEntityConstant.ENABLE.getValue());
         fieldMap.put(field, value);
         List<T> list = findAllByProperties(fieldMap, orderParams);
-        return CollectionUtils.isEmpty(list) ? null : list;
+        return CollectionUtils.isEmpty(list) ? new ArrayList<>() : list;
     }
 
     /**
@@ -247,8 +248,8 @@ public abstract class BaseService<T extends BaseEntity> {
         Query query = entityManager.createQuery(hql);
         QueryParam.setQueryParams(query, queryParams);
 
-        query.setFirstResult(responsePage.getPageNum() * responsePage.getPageSize());
-        query.setMaxResults(responsePage.getPageSize());
+        query.setFirstResult(requestPage.getPageNum() * requestPage.getPageSize());
+        query.setMaxResults(requestPage.getPageSize());
 
         List resultList = query.getResultList();
         responsePage.setResultList(resultList);

@@ -97,13 +97,13 @@ public class CompanyService extends BaseService<CompanyEntity> {
      *
      * @return
      */
-    public CompanyDTO findCompanyTree() {
+    public ResponseCompanyDTO findCompanyTree() {
         CompanyEntity parent = findByParentId(BaseEntityConstant.PARENT.getValue());
-        CompanyDTO dto = CopyBeanUtil.entityToDTO(parent, CompanyDTO.class);
+        ResponseCompanyDTO responseCompanyDTO = ResponseCompanyDTO.toDTO(parent);
         List<CompanyEntity> companyEntityList = findAllByParentId(parent.getId());
-        List<CompanyDTO> childList = CopyBeanUtil.entityListToDTOList(companyEntityList, CompanyDTO.class);
-        dto.setChildren(childList);
-        return dto;
+        List<ResponseCompanyDTO> dtoList = ResponseCompanyDTO.toDTOList(companyEntityList);
+        responseCompanyDTO.setChildren(dtoList);
+        return responseCompanyDTO;
     }
 
     /**
@@ -111,14 +111,31 @@ public class CompanyService extends BaseService<CompanyEntity> {
      *
      * @return
      */
-    public List<CompanyDTO> findLoginUserCompanyTree() {
-        List<CompanyDTO> list = new ArrayList<>();
+    public List<ResponseCompanyDTO> findLoginUserCompanyTree() {
         CompanyEntity parent = findByParentId(BaseEntityConstant.PARENT.getValue());
-        CompanyDTO dto = CopyBeanUtil.entityToDTO(parent, CompanyDTO.class);
-        List<CompanyEntity> companyEntityList = findAllByParentId(parent.getId());
-        List<CompanyDTO> childList = CopyBeanUtil.entityListToDTOList(companyEntityList, CompanyDTO.class);
-        dto.setChildren(childList);
-        list.add(dto);
-        return list;
+        List<CompanyEntity> entityList = findAllByParentId(parent.getId());
+        List<ResponseCompanyDTO> dtoList = ResponseCompanyDTO.toDTOList(entityList);
+        for (ResponseCompanyDTO dto : dtoList) {
+            dto.setChildren(getChild(dto.getId()));
+        }
+        return dtoList;
+    }
+
+    /**
+     * 递归查询
+     * @param parentId
+     * @return
+     */
+    public List<ResponseCompanyDTO> getChild(String parentId) {
+        List<ResponseCompanyDTO> responseCompanyDTOList = new ArrayList<>();
+        List<CompanyEntity> entityList = findAllByParentId(parentId);
+        if (CollectionUtils.isEmpty(entityList)) {
+            return responseCompanyDTOList;
+        }
+        List<ResponseCompanyDTO> dtoList = ResponseCompanyDTO.toDTOList(entityList);
+        for (ResponseCompanyDTO dto : dtoList) {
+            dto.setChildren(getChild(dto.getId()));
+        }
+        return responseCompanyDTOList;
     }
 }

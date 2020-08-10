@@ -80,14 +80,14 @@ public class CompanyController {
     @PostMapping("findCompanyTree.do")
     @ApiOperation("查询机构树")
     public Result findCompanyTree(@RequestBody RequestCompanyDTO request) {
-        CompanyDTO resultData = companyService.findCompanyTree();
-        return Result.newSuccessResult(CRUDConstant.DELETE.getValue(), resultData);
+        ResponseCompanyDTO resultData = companyService.findCompanyTree();
+        return Result.newSuccessResult(CRUDConstant.QUERY.getValue(), resultData);
     }
 
     @PostMapping("findLoginUserCompanyTree.do")
     @ApiOperation("查询当前登录人机构树")
     public Result findLoginUserCompanyTree(@RequestBody RequestCompanyDTO request) {
-        List<CompanyDTO> resultData = companyService.findLoginUserCompanyTree();
-        return Result.newSuccessResult(CRUDConstant.DELETE.getValue(), resultData);
+        List<ResponseCompanyDTO> resultData = companyService.findLoginUserCompanyTree();
+        return Result.newSuccessResult(CRUDConstant.QUERY.getValue(), resultData);
     }
 }

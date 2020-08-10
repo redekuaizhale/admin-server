@@ -80,6 +80,7 @@ public class DeptController {
     @ApiOperation("根据机构查询")
     public Result findByCompanyId(@RequestBody RequestDeptDTO request) {
         List<DeptEntity> entityList = deptService.findByCompanyId(request);
-        return Result.newSuccessResult(CRUDConstant.QUERY.getValue(),ResponseDeptDTO.toDTOList(entityList));
+        List<ResponseDeptDTO> dtoList = ResponseDeptDTO.toDTOList(entityList);
+        return Result.newSuccessResult(CRUDConstant.QUERY.getValue(),dtoList);
     }
 }

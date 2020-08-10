@@ -72,6 +72,6 @@ public class CompanyDTO extends BaseDTO {
     /**
      * 子机构
      */
-    private List<CompanyDTO> children = new ArrayList<>();
+    private List<ResponseCompanyDTO> children = new ArrayList<>();
 
 }

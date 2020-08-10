@@ -15,8 +15,10 @@
  */
 package com.zh.user.service;
 
+import cn.hutool.core.util.IdUtil;
 import com.zh.base.exception.ServiceException;
 import com.zh.base.service.BaseService;
+import com.zh.constants.MapConstant;
 import com.zh.constants.RoleConstant;
 import com.zh.constants.StatusConstant;
 import com.zh.dept.entity.DeptEntity;
@@ -73,7 +75,7 @@ public class UserService extends BaseService<UserEntity> {
      * @return
      */
     public ResponseUserDTO getLoginUser(RequestLoginUserDTO request) {
-        Map<String, Object> queryMap = new HashMap<>(16);
+        Map<String, Object> queryMap = new HashMap<>(MapConstant.INITIAL_CAPACITY.getValue());
         queryMap.put("loginCode", request.getLoginCode());
         queryMap.put("password", request.getPassword());
         UserEntity user = findByProperties(queryMap);
@@ -83,12 +85,10 @@ public class UserService extends BaseService<UserEntity> {
         if (StringUtils.equals(user.getStatus(), StatusConstant.NO_USE.getValue())) {
             throw new ServiceException("该账号已被停用！");
         }
-        String token = UUID.randomUUID().toString();
+        String token = IdUtil.simpleUUID();
         redisUtils.set(token, user.getId());
 
-        ResponseUserDTO userDTO = new ResponseUserDTO();
-        BeanUtils.copyProperties(user, userDTO);
-
+        ResponseUserDTO userDTO =  ResponseUserDTO.toDTO(user);
         userDTO.setToken(token);
         return userDTO;
     }
