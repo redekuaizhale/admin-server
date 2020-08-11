@@ -15,8 +15,12 @@
  */
 package com.zh.dept.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.zh.base.dto.BaseDTO;
+import com.zh.constants.DateConstant;
 import lombok.Data;
+
+import java.util.Date;
 
 /**
  * @author zhanghui
@@ -50,4 +54,9 @@ public class DeptDTO extends BaseDTO {
      * 描述
      */
     private String remark;
+
+    /**
+     * 成立时间
+     */
+    private Date setupDate;
 }

@@ -1,6 +1,9 @@
 server:
   port: 9528
 spring:
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://192.168.5.148:3306/admin?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
