@@ -15,9 +15,7 @@
  */
 package com.zh.dept.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.zh.base.dto.BaseDTO;
-import com.zh.constants.DateConstant;
 import lombok.Data;
 
 import java.util.Date;

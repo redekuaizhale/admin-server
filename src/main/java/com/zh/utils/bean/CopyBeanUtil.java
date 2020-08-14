@@ -33,26 +33,6 @@ import java.util.List;
 public class CopyBeanUtil {
 
     /**
-     * 将entityList转换成modelList
-     * @param fromList
-     * @param tClass
-     * @param <F>
-     * @param <T>
-     * @return
-     */
-    public static <F, T> List<T> entityListToDTOList(List<F> fromList, Class<T> tClass) {
-        if (CollectionUtils.isEmpty(fromList)) {
-            return new ArrayList<>();
-        }
-        List<T> tList = new ArrayList<>();
-        for (F f : fromList) {
-            T t = entityToDTO(f, tClass);
-            tList.add(t);
-        }
-        return tList;
-    }
-
-    /**
      * entity转dto
      * @param entity
      * @param modelClass

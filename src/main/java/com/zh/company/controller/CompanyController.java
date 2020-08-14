@@ -18,7 +18,6 @@ package com.zh.company.controller;
 import com.zh.base.request.RequestPage;
 import com.zh.base.response.ResponsePage;
 import com.zh.base.response.Result;
-import com.zh.company.dto.CompanyDTO;
 import com.zh.company.dto.RequestCompanyDTO;
 import com.zh.company.dto.ResponseCompanyDTO;
 import com.zh.company.entity.CompanyEntity;

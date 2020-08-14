@@ -52,8 +52,7 @@ public class UserRoleController {
     public Result query(@RequestBody RequestPage requestPage) {
         ResponsePage result = userRoleService.query(requestPage);
         List<UserRoleEntity> resultList = (List<UserRoleEntity>) result.getResultList();
-        List<ResponseUserRoleDTO> list = CopyBeanUtil.entityListToDTOList(resultList, ResponseUserRoleDTO.class);
-        result.setResultList(list);
+        result.setResultList(ResponseUserRoleDTO.toDTOList(resultList));
         return Result.newSuccessResult(CRUDConstant.QUERY.getValue(), result);
     }
 
