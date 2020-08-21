@@ -15,8 +15,8 @@ spring:
     database: 0
     host: 192.168.5.148
     port: 6379
-    timeout: 5000
     password: '0000'
+    timeout: 5000
 logging:
   path: D:\\work\\logs\\admin-server
   config: classpath:log/logback-spring.xml

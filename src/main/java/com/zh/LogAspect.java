@@ -21,10 +21,14 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 记录接口响应时间
@@ -45,17 +49,18 @@ public class LogAspect {
     public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
         try {
             long start = System.currentTimeMillis();
-            String methodName = joinPoint.getSignature().getName();
+            HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
             List<Object> argsObject = new ArrayList<>();
             Object[] args = joinPoint.getArgs();
             if (args != null && args.length > 0) {
-                Arrays.stream(args).forEach(item -> argsObject.add(item));
+                argsObject.addAll(Arrays.asList(args));
             }
             Object result = joinPoint.proceed();
             long end = System.currentTimeMillis();
-            log.info(String.format("请求成功 | 方法名：%s | 参数：%s | 耗时：%s ms", methodName, argsObject.toString(), end - start));
+            log.info("请求URL:【{}】,请求参数:【{}】,返回结果:【{}】,耗时:【{}】s",request.getRequestURL().toString(),argsObject.toString(),result.toString(),end-start);
             return result;
         } catch (Throwable e) {
+            e.printStackTrace();
             throw e;
         }
     }

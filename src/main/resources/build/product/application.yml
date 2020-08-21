@@ -15,6 +15,7 @@ spring:
     database: 0
     host: 47.105.46.132
     port: 6379
+    password: '1234'
     timeout: 5000
 logging:
   path: /home/apache-tomcat-8.5.57/webapps/logs
