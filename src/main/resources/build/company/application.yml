@@ -18,5 +18,5 @@ spring:
     timeout: 5000
     password: '0000'
 logging:
-  path: D:\\work\\logs\\admin-server
-  config: src/main/resources/log/logback-spring.xml
+  path: /home/apache-tomcat-8.5.57/webapps/logs
+  config: classpath:log/logback-spring.xml

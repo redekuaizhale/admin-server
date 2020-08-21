@@ -6,16 +6,17 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.5.148:3306/admin?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://192.168.1.112:3306/admin?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
     username: root
-    password: '0000'
+    password: '1234'
   jpa:
     show-sql: false
   redis:
     database: 0
-    host: 192.168.5.148
+    host: 192.168.1.112
     port: 6379
     timeout: 5000
     password: '0000'
 logging:
-  config: src/main/resources/log/logback-spring.xml
+  path: /home/apache-tomcat-8.5.57/webapps/logs
+  config: classpath:log/logback-spring.xml

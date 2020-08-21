@@ -12,7 +12,7 @@
 
     <contextName>logback</contextName>
 
-    <property name="log.path" value="D:\\work\\logs\\server-ifc"/>
+    <property name="log.path" value="${LOG_PATH:-.}"/>
 
     <!-- 彩色日志 -->
     <!-- 彩色日志依赖的渲染类 -->
