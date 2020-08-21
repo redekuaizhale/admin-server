@@ -19,4 +19,4 @@ spring:
     password: '0000'
 logging:
   path: D:\\work\\logs\\admin-server
-  config: src/main/resources/log/logback-spring.xml
+  config: classpath:log/logback-spring.xml
