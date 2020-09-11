@@ -13,18 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zh.menu.controller;
+package com.zh.parameter.controller;
 
 import com.zh.base.request.RequestPage;
 import com.zh.base.response.ResponsePage;
 import com.zh.base.response.Result;
 import com.zh.constants.CRUDConstant;
-import com.zh.menu.dto.RequestMenuDTO;
-import com.zh.menu.dto.ResponseMenuDTO;
-import com.zh.menu.entity.MenuEntity;
-import com.zh.menu.service.MenuService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import com.zh.parameter.dto.RequestParameterDTO;
+import com.zh.parameter.dto.ResponseParameterDTO;
+import com.zh.parameter.entity.ParameterEntity;
+import com.zh.parameter.service.ParameterService;
+import com.zh.utils.bean.CopyBeanUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,39 +34,47 @@ import java.util.List;
 
 /**
  * @author zhanghui
- * @date 2019-12-10
+ * @date 2020-09-09
  * @company Dingxuan
  */
 @RestController
-@RequestMapping("/menu/")
-public class MenuController {
+@RequestMapping("/parameter/")
+public class ParameterController {
 
     @Autowired
-    private MenuService menuService;
+    private ParameterService parameterService;
 
     @PostMapping("query.do")
     public Result query(@RequestBody RequestPage requestPage) {
-        ResponsePage result = menuService.query(requestPage);
-        List<MenuEntity> resultList = (List<MenuEntity>) result.getResultList();
-        result.setResultList(ResponseMenuDTO.toDTOList(resultList));
+        ResponsePage result = parameterService.query(requestPage);
+        List<ParameterEntity> resultList = (List<ParameterEntity>) result.getResultList();
+        result.setResultList(ResponseParameterDTO.toDTOList(resultList));
         return Result.newSuccessResult(CRUDConstant.QUERY.getValue(), result);
     }
 
+    @PostMapping("findByKey.do")
+    public Result findByKey(@RequestBody RequestParameterDTO request) {
+        ParameterEntity entity = parameterService.findByKey(request);
+        ResponseParameterDTO dto = new ResponseParameterDTO();
+        CopyBeanUtil.entityToDTO(entity,dto);
+        return Result.newSuccessResult(CRUDConstant.QUERY.getValue(), dto);
+    }
+
     @PostMapping("add.do")
-    public Result add(@RequestBody RequestMenuDTO request) {
-        String id = menuService.add(request);
+    public Result add(@RequestBody RequestParameterDTO request) {
+        String id = parameterService.add(request);
         return Result.newSuccessResult(CRUDConstant.ADD.getValue(),id);
     }
 
     @PostMapping("edit.do")
-    public Result edit(@RequestBody RequestMenuDTO request) {
-        menuService.edit(request);
+    public Result edit(@RequestBody RequestParameterDTO request) {
+        parameterService.edit(request);
         return Result.newSuccessResult(CRUDConstant.UPDATE.getValue());
     }
 
     @PostMapping("delete.do")
-    public Result delete(@RequestBody RequestMenuDTO request) {
-        menuService.deleteById(request.getId());
+    public Result delete(@RequestBody RequestParameterDTO request) {
+        parameterService.deleteById(request.getId());
         return Result.newSuccessResult(CRUDConstant.DELETE.getValue());
     }
 }

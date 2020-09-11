@@ -37,7 +37,8 @@ public class AdminInterceptorAdapter implements WebMvcConfigurer {
                 addPathPatterns("/**/*.do").
                 excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**").
                 excludePathPatterns("/druid/*").
-                excludePathPatterns("/user/login.do");
+                excludePathPatterns("/user/login.do").
+                excludePathPatterns("/parameter/findByKey.do");
     }
 
     @Override

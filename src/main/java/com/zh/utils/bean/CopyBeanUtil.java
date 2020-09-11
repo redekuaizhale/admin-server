@@ -63,7 +63,9 @@ public class CopyBeanUtil {
      * @param target
      */
     public static void entityToDTO(Object source, Object target) {
-        BeanUtil.copyProperties(source, target);
+        if (source != null) {
+            BeanUtil.copyProperties(source, target);
+        }
     }
 
     /**
@@ -72,6 +74,8 @@ public class CopyBeanUtil {
      * @param target
      */
     public static void DTOToEntity(Object source, Object target,String... ignoreProperties) {
-        BeanUtil.copyProperties(source, target,"id","version","del_flag","create_user_id","create_date","update_user_id","update_date", Arrays.toString(ignoreProperties));
+        if (source != null && target != null) {
+            BeanUtil.copyProperties(source, target,"id","version","del_flag","create_user_id","create_date","update_user_id","update_date", Arrays.toString(ignoreProperties));
+        }
     }
 }
